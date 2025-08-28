@@ -8,6 +8,35 @@ class Token :
     def print_token(self):
         print(f"Token : [{self.type}, {self.valeur}, {self.chaine}]")
 
+
+class Node :
+    ## création de noeud 
+    def __init__(self, type : str):
+        ## déclaration des attributs
+        pass 
+    ## ajouter un enfant 
+    def ajouter_enfant(self, fils : Node):
+        pass
+    ## afficher arbre 
+    def afficher_arbre(self):
+        pass
+    def nodeV(self, type : str, valeur : int):
+        ## création du noeud et renseignement de la valeur du chiffre
+        pass
+    def nodeC(self, type : str, chaine : str):
+        ## création du noeud et renseignmenet de la chaine de caractère 
+        pass 
+    def node_1(self, type : str, fils : Node):
+        ## création du noeud pere et ajout du fils dans la liste des fils 
+        pass
+    def node_2(self, type : str, fils1 : Node, fils2 : Node):
+        ## création du noeud pere et ajout des deux fils dans la liste des fils 
+        pass 
+        
+    
+    
+
+
 key_words = {
     # mots-clés
     "tok_int": "int",
@@ -59,3 +88,4 @@ enum = {
 "tok_comma": ",",
 "tok_amp": "&",
 }
+

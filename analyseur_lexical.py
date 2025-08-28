@@ -103,7 +103,7 @@ class AnalyserLexical :
     
     def accept(self, type : str):
         global T
-        if ( not self.check(type)):
+        if (not self.check(type)):
             raise Exception(f"Le type attendu <{type}> ne correspond par au type du token <{T.type}>")
 
 analyseur  = AnalyserLexical("text.txt")
