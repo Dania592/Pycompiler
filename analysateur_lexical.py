@@ -6,16 +6,16 @@ Last = Token("",0,"")
 
 class AnalyserLexical : 
     def __init__(self, path : str):
-        if os.path.exists(path):
+        if not os.path.exists(path):
             raise FileNotFoundError(f"Le fichier à l'emplacement {path} n'existe pas !")
         
         self.file = open(path)
         self.text_content = self.file.read()
         self.length = len(self.text_content)
         self.pos = 0
-        self.next(self.text_content)
+        self.next()
     
-    def next(self, content : str):
+    def next(self):
         global T 
         global Last 
         Last = T 
@@ -63,6 +63,7 @@ class AnalyserLexical :
         return car
     
     def get_motif(self):
+        global T
         c = self.text_content[self.pos]
         if (c in ["=", "!", ">", "<"] ):
             if self.length > self.pos + 1 and self.text_content[self.pos+1] == "=":
@@ -85,5 +86,17 @@ class AnalyserLexical :
             # TODO erreur 
             T = Token("inconnu", 0, c)
         
+    def check(self, type : str) -> bool:
+        global T
+        if (T.type == type):
+            self.next()
+            return True
+        return False
+    
+    def accept(self, type : str):
+        global T
+        if ( not self.check(type)):
+            raise Exception(f"Le type attendu <{type}> ne correspond par au type du token <{T.type}>")
 
 analyseur  = AnalyserLexical("text.txt")
+analyseur.accept("tok_e")
