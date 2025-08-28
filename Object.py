@@ -1,8 +1,12 @@
-class token :
-    def __init__(self, type : int, valeur : int, chaine : str):
+class Token :
+    def __init__(self, type : str, valeur : int, chaine : str):
         self.type = type
         self.valeur = valeur
         self.chaine = chaine 
+        if type != "":
+            self.print_token()
+    def print_token(self):
+        print(f"Token : [{self.type}, {self.valeur}, {self.chaine}]")
 
 key_words = {
     # mots-clés
@@ -15,7 +19,11 @@ key_words = {
     "tok_do": "do",
     "tok_while": "while",
     "tok_break": "break",
-    "tok_continue": "continue"
+    "tok_continue": "continue",
+    # autres 
+    "tok_debug": "debug",
+    "tok_send": "send",
+    "tok_recv": "recv"
 }
 
 enum = {
@@ -50,9 +58,4 @@ enum = {
 "tok_semicolon": ";",
 "tok_comma": ",",
 "tok_amp": "&",
-
-# autres 
-"tok_debug": "debug",
-"tok_send": "send",
-"tok_recv": "recv"
 }
