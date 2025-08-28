@@ -19,11 +19,12 @@ class AnalyserLexical :
         global T 
         global Last 
         Last = T 
+        
         ## TODO gérer les commentaires  
         while self.length > self.pos and self.text_content[self.pos] in [" ", "\n", "\t"]:
             self.pos += 1
             
-        if self.length == self.pos :
+        if self.length <= self.pos :
             ## token de fin de fichier 
             T = Token("tok_eof", 0, "eof")
             
@@ -36,12 +37,11 @@ class AnalyserLexical :
                 
             elif (car.isalpha() or car == "_"):
                 ## récupération du mot
-                print("c'est une lettre ", car)
                 word = self.get_alpha()
                 
                 if word in key_words.values():
                     ## token mots clé
-                    T = Token("tok_"+word, 0, word)
+                    T = Token("tok_" + word, 0, word)
                 else :
                     ## token indicateur / varibale / fonction 
                     T = Token("tok_ident", 0, word)
@@ -49,6 +49,7 @@ class AnalyserLexical :
                 self.get_motif()
                     
     def get_number(self) -> int:
+        """Extrait un nombre depuis la position courante"""
         num = ""
         while self.length > self.pos and self.text_content[self.pos].isdigit():
             num += self.text_content[self.pos]
@@ -56,15 +57,20 @@ class AnalyserLexical :
         return int(num)
     
     def get_alpha(self) -> str:
+        """Extrait une chaîne alphabétique depuis la position courante"""
         car = ""
-        while self.length > self.pos and (self.text_content[self.pos].isalpha() or self.text_content[self.pos]== "_"):
+        while (self.length > self.pos and 
+        (self.text_content[self.pos].isalpha() or self.text_content[self.pos]== "_")):
             car += self.text_content[self.pos]
             self.pos += 1
         return car
     
     def get_motif(self):
+        """Traite les opérateurs et symboles spéciaux"""
         global T
         c = self.text_content[self.pos]
+        
+        # Gestion des opérateurs composés
         if (c in ["=", "!", ">", "<"] ):
             if self.length > self.pos + 1 and self.text_content[self.pos+1] == "=":
                 self.pos += 1
@@ -78,12 +84,14 @@ class AnalyserLexical :
                 self.pos += 1
                 c += self.text_content[self.pos]
                 
+        self.pos += 1
+        
         inverse_enum = {v: k for k, v in enum.items()}
         if c in inverse_enum.keys():
             token_type = inverse_enum[c]
             T = Token(token_type, 0, c)
         else :
-            # TODO erreur 
+            # TODO erreur lors de l'identification du car 
             T = Token("inconnu", 0, c)
         
     def check(self, type : str) -> bool:
@@ -99,4 +107,5 @@ class AnalyserLexical :
             raise Exception(f"Le type attendu <{type}> ne correspond par au type du token <{T.type}>")
 
 analyseur  = AnalyserLexical("text.txt")
-analyseur.accept("tok_e")
+while T.type != "tok_eof":
+    analyseur.next()
