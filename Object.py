@@ -11,7 +11,7 @@ class Token :
 
 class Node :
     ## création de noeud 
-    def __init__(self, type : str, valeur = None : int, chaine = None : str):
+    def __init__(self, type : str, valeur:int = None, chaine:str = None):
         ## déclaration des attributs
         self.type = type
         if valeur != None :
@@ -21,11 +21,17 @@ class Node :
         self.fils = []
         
     ## ajouter un enfant 
-    def ajouter_enfant(self, fils : Node):
-        pass
+    def ajouter_enfant(self, fils:"Node"):
+        self.fils.append(fils)
+        print("Ajout d'un fils dans le noeud de type : ",self.type)
+
     ## afficher arbre 
     def afficher_arbre(self):
-        pass
+        print("(", self.type)
+        for i in self.fils :
+            print(" ")
+            self.fils[i].afficher_arbre()
+        print(")")
 
 
 key_words = {

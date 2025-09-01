@@ -1,4 +1,1 @@
-
->= _mot w_ord 123 (ici un /;)
-int 
-    break 
+23

@@ -1,8 +1,6 @@
 import os
 from Object import Token, key_words, enum
-
-T = Token("",0,"")
-Last = Token("",0,"")
+from config import T, Last
 
 class AnalyserLexical : 
     def __init__(self, path : str):
@@ -16,10 +14,9 @@ class AnalyserLexical :
         self.next()
     
     def next(self):
-        global T 
-        global Last 
+        global T
+        global Last
         Last = T 
-        
         ## TODO gérer les commentaires  
         while self.length > self.pos and self.text_content[self.pos] in [" ", "\n", "\t"]:
             self.pos += 1
@@ -47,7 +44,7 @@ class AnalyserLexical :
                     T = Token("tok_ident", 0, word)
             else :
                 self.get_motif()
-                    
+        
     def get_number(self) -> int:
         """Extrait un nombre depuis la position courante"""
         num = ""
@@ -106,6 +103,6 @@ class AnalyserLexical :
         if (not self.check(type)):
             raise Exception(f"Le type attendu <{type}> ne correspond par au type du token <{T.type}>")
 
-analyseur  = AnalyserLexical("text.txt")
-while T.type != "tok_eof":
-    analyseur.next()
+# analyseur  = AnalyserLexical("text.txt")
+# while T.type != "tok_eof":
+#     analyseur.next()
