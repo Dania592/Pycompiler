@@ -3,8 +3,8 @@ class Token :
         self.type = type
         self.valeur = valeur
         self.chaine = chaine 
-        if type != "":
-            self.print_token()
+        # if type != "":
+        #     self.print_token()
     def print_token(self):
         print(f"Token : [{self.type}, {self.valeur}, {self.chaine}]")
 
