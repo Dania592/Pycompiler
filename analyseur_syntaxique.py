@@ -7,11 +7,20 @@ class AnalyseurSyntaxique :
     def __init__(self, path : str):
         global T
         self.analyseur = AnalyserLexical(path)
-        print("analyseur syntaxique ::::: ", config.T.type)
+        #print("analyseur syntaxique ::::: ", config.T.type)
     
-    def E(self):
-        return self.P()
-    
+    def E(self, prio: int)->Node:
+        node=self.P()
+        while config.T.type in config.operateurs.keys() and config.operateurs[config.T.type]["priority"]<prio:
+            operateur= config.T.type
+            self.analyseur.next()
+            M=self.E(config.operateurs[config.T.type]["parg"])
+            N= Node(config.operateurs[config.T.type]["Ntype"])
+            N.ajouter_enfant(node)
+            N.ajouter_enfant(M)
+            node=N
+        return node 
+
     
     def P(self):
         ## gestion des expressions simple avec un prefixe et un nom

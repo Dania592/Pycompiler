@@ -3,7 +3,7 @@ from Object import Token
 T = Token("test",0,"")
 Last = Token("",0,"")
 
-operateur={
+operateurs={
     "tok_plus": {"priority": 5 , "parg":6 , "Ntype": "node_add"},
     "tok_minus":{"priority": 5 , "parg":6 , "Ntype":"node_sub" },
     "tok_mult":{"priority": 6 , "parg":7 , "Ntype":"node_mult"},
@@ -19,5 +19,29 @@ operateur={
     "tok_le":{"priority": 4 , "parg":5 , "Ntype":"node_le"},
     "tok_ge":{"priority": 4 , "parg":5 , "Ntype":"node_ge"},
     "tok_assign":{"priority": 1 , "parg":1 , "Ntype":"node_assign"}
+
+}
+
+op_assembleur={
+    "node_add":{"suffixe": "add", "prefixe": ""},
+    "node_minus":{"suffixe": "sub", "prefixe": "push 0"},
+    "node_sub":{"suffixe": "sub", "prefixe": ""},
+    "node_not":{"suffixe": "not", "prefixe": ""},
+    "node_mult":{"suffixe": "mul", "prefixe": ""},
+    "node_div":{"suffixe": "div", "prefixe": ""},
+    "node_mod":{"suffixe": "mod", "prefixe": ""},
+    "node_and":{"suffixe": "and", "prefixe": ""},
+    "node_or":{"suffixe": "or", "prefixe": ""},
+    "node_affect":{"suffixe": "", "prefixe": ""}, #TODO !!!!!!!!!!!
+    "node_eq":{"suffixe": "cmpeq", "prefixe": ""},
+    "node_neq":{"suffixe": "cmpne", "prefixe": ""},
+    "node_lt":{"suffixe": "cmplt", "prefixe": ""},
+    "node_gt":{"suffixe": "cmpgt", "prefixe": ""},
+    "node_le":{"suffixe": "cmple", "prefixe": ""},
+    "node_ge":{"suffixe": "cmpge", "prefixe": ""},
+
+
+
+
 
 }

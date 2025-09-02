@@ -11,7 +11,7 @@ class AnalyseurSemantique:
         self.gennode(arbre)
         
     def optim(self):
-        arbre = self.analyseur_syntaxique.E()
+        arbre = self.analyseur_syntaxique.E(0)
         return arbre
         
     def gennode(self, arbre : Node):
@@ -24,4 +24,10 @@ class AnalyseurSemantique:
             print("push 0")
             self.gennode(arbre.fils[0])
             print("sub")
+        elif ( arbre.type in config.op_assembleur.keys() ):
+            print(config.op_assembleur[arbre.type]["prefixe"])
+            for fils in arbre.fils:
+                self.gennode(fils)
+            print(config.op_assembleur[arbre.type]["suffixe"])
+            
         
