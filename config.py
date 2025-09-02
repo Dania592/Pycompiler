@@ -14,10 +14,10 @@ operateurs={
 
     "tok_eq":{"priority": 4 , "parg":5 , "Ntype":"node_eq"},
     "tok_neq":{"priority": 4 , "parg":5 , "Ntype":"node_neq"},
-    "tok_lt":{"priority": 4 , "parg":5 , "Ntype":"node_lt"},
-    "tok_gt":{"priority": 4 , "parg":5 , "Ntype":"node_gt"},
-    "tok_le":{"priority": 4 , "parg":5 , "Ntype":"node_le"},
-    "tok_ge":{"priority": 4 , "parg":5 , "Ntype":"node_ge"},
+    "tok_lt":{"priority": 4.5 , "parg":5 , "Ntype":"node_lt"},
+    "tok_gt":{"priority": 4.5 , "parg":5 , "Ntype":"node_gt"},
+    "tok_le":{"priority": 4.5 , "parg":5 , "Ntype":"node_le"},
+    "tok_ge":{"priority": 4.5 , "parg":5 , "Ntype":"node_ge"},
     "tok_assign":{"priority": 1 , "parg":1 , "Ntype":"node_assign"}
 
 }
