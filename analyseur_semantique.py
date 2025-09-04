@@ -5,30 +5,33 @@ import config
 #Parcours l'arbre syntaxique pour effectuer des verifications afin de génerer le pseudo code machine
 class AnalyseurSemantique:    
     def __init__(self, path):
-        self.analyseur_syntaxique = AnalyseurSyntaxique(path)
+        self.analyseur_syntaxique = AnalyseurSyntaxique(path) # recupere le resultat de l'analyseur syntaxique
         
+    # Méthode appelé pour générer le code machine
     def gencode(self):
         arbre = self.optim()
         self.gennode(arbre)
         
+    #fait l'analyse sémantique de l'arbre syntaxite avec 0 comme priorité initiale
     def optim(self):
         arbre = self.analyseur_syntaxique.E(0)
         return arbre
         
+    # Méthode qui parcours récursivement l'arbre de noeud et génère le code machine associé a chaque noeud
     def gennode(self, arbre : Node):
-        if (arbre.type ==  "node_const"): 
+        if (arbre.type ==  "node_const"):  #si le noeud est une constante on l'ajoute a la pile
             print("push ", arbre.valeur)
-        elif (arbre.type == "node_not"):
-            self.gennode(arbre.fils[0])
+        elif (arbre.type == "node_not"): # si le noeud correspond a un non logique
+            self.gennode(arbre.fils[0]) # on déroule la fonction gennode sur le fils 
             print("not")
-        elif (arbre.type == "node_neg"):
+        elif (arbre.type == "node_neg"): # si le neoud correspond à une négation arithmétique
             print("push 0")
             self.gennode(arbre.fils[0])
             print("sub")
-        elif ( arbre.type in config.op_assembleur.keys() ):
+        elif ( arbre.type in config.op_assembleur.keys() ): # si le type du noeud existe dans notre dictoinnaire 
             print(config.op_assembleur[arbre.type]["prefixe"])
             for fils in arbre.fils:
-                self.gennode(fils)
+                self.gennode(fils) # on fait de la recursivité sur les fils pour parcourir toute l'expression
             print(config.op_assembleur[arbre.type]["suffixe"])
             
         
