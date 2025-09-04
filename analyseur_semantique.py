@@ -52,4 +52,10 @@ class AnalyseurSemantique:
         sym = {name : ""}
         config.TS[0].update(sym)
         return sym 
+    
+    def find (self , name:str):
+        for i in config.TS : 
+            if config.TS[i][name]:
+                return  config.TS[i][name] #on veut recuperer les infos de la variable 
+        raise Exception(f"la variable n'existe pas")
         
