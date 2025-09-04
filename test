@@ -1,0 +1,12 @@
+start
+node_drop
+              /
+               ____________________________
+node_sub                                   
+      /                      \             
+       ______   _____________              
+node_const:12   node_mult                  
+                      /              \     
+                       _____   ______      
+debug
+hlt

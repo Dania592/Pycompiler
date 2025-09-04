@@ -59,4 +59,22 @@ class AnalyseurSyntaxique :
         
         raise Exception(f"Regle de grammaire non respectée avec le token {config.T.type}")
     
+    def I(self) -> Node:
+        if (self.analyseur.check("tok_debug")):
+            node = self.E(0)
+            self.analyseur.accept("tok_semicolon")
+            N = Node("node_debug")
+            N.ajouter_enfant(node)
+            return N 
+        elif (self.analyseur.check("tok_brace_open")):
+            node = Node("node_block")
+            while ( not self.analyseur.check("tok_brace_close")):
+                node.ajouter_enfant(self.I())
+            return node 
+        else :
+            N = self.E(0)
+            self.analyseur.accept("tok_semicolon")
+            node = Node("node_drop")
+            node.ajouter_enfant(N)
+            return node
         

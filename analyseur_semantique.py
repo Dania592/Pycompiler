@@ -15,7 +15,8 @@ class AnalyseurSemantique:
         
     #fait l'analyse sémantique de l'arbre syntaxite avec 0 comme priorité initiale
     def optim(self):
-        arbre = self.analyseur_syntaxique.E(0)
+        arbre = self.analyseur_syntaxique.I()
+        arbre.afficher_arbre_joli()
         return arbre
         
     # Méthode qui parcours récursivement l'arbre de noeud et génère le code machine associé a chaque noeud
