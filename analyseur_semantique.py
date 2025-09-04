@@ -2,6 +2,7 @@ from analyseur_syntaxique import AnalyseurSyntaxique
 from Object import Node
 import config
 
+#Parcours l'arbre syntaxique pour effectuer des verifications afin de génerer le pseudo code machine
 class AnalyseurSemantique:    
     def __init__(self, path):
         self.analyseur_syntaxique = AnalyseurSyntaxique(path)

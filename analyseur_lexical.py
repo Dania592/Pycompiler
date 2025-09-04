@@ -2,35 +2,39 @@ import os
 from Object import Token, key_words, enum
 import config
 
+# Classe qui permet de transformer le texte source du programme en une suite de token
 class AnalyserLexical : 
-    def __init__(self, path : str):
+
+    # constructeur de la classe qui recupère le chemin vers le texte source
+    def __init__(self, path : str): # verifie si ce chemin existe
         if not os.path.exists(path):
             raise FileNotFoundError(f"Le fichier à l'emplacement {path} n'existe pas !")
         
-        self.file = open(path)
-        self.text_content = self.file.read()
+        self.file = open(path) # ouverture du fichier source
+        self.text_content = self.file.read() # lecture du fichier source
         self.length = len(self.text_content)
         self.pos = 0
         self.next()
         #print("dans l'analyseur lexical : ", config.T.type)
         
     
+    # Méthodes qui permet de passer au carractere suivant
     def next(self):
         global T
         global Last
         config.Last = config.T 
         ## TODO gérer les commentaires  
-        while self.length > self.pos and self.text_content[self.pos] in [" ", "\n", "\t"]:
+        while self.length > self.pos and self.text_content[self.pos] in [" ", "\n", "\t"]: # on parcours le textcontent
             self.pos += 1
             
-        if self.length <= self.pos :
+        if self.length <= self.pos : # si on arrive au bout du fichier, on renvoie le token de fin de fichier 
             ## token de fin de fichier 
             config.T = Token("tok_eof", 0, "eof")
             
-        else :
+        else : # si non on s'intéresse à chaque caractère
             car = self.text_content[self.pos] 
             if (car.isdigit()):
-                ## token de constante 
+                ## si le caractère est un nombre, on recupère sa valeur et on renvoie un token de constante 
                 number = self.get_number()
                 config.T = Token("tok_const", number, "")
                 
@@ -69,7 +73,7 @@ class AnalyserLexical :
         global T
         c = self.text_content[self.pos]
         
-        # Gestion des opérateurs composés
+        # Gestion des opérateurs composés (==, !=; <=, >=)
         if (c in ["=", "!", ">", "<"] ):
             if self.length > self.pos + 1 and self.text_content[self.pos+1] == "=":
                 self.pos += 1
