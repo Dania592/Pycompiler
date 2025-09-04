@@ -16,7 +16,7 @@ class AnalyseurSemantique:
     #fait l'analyse sémantique de l'arbre syntaxite avec 0 comme priorité initiale
     def optim(self):
         arbre = self.analyseur_syntaxique.I()
-        arbre.afficher_arbre_joli()
+        # arbre.afficher_arbre_joli()
         return arbre
         
     # Méthode qui parcours récursivement l'arbre de noeud et génère le code machine associé a chaque noeud
@@ -40,5 +40,16 @@ class AnalyseurSemantique:
             if suffixe != "":
                 print(suffixe)
             
-            
+    def begin(self):
+        config.TS.append({})
+    
+    def end(self):
+        return config.TS[-1]
+    
+    def declare(self, name: str) -> dict :
+        if(not config.TS and name in config.TS[0]): ## erreur quand TS vide 
+            raise Exception(f"La varibale {name} existe deja dans le block")
+        sym = {name : ""}
+        config.TS[0].update(sym)
+        return sym 
         
