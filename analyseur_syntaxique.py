@@ -10,7 +10,7 @@ class AnalyseurSyntaxique :
     
     def E(self, prio: int)->Node:
         node=self.P()
-        while config.T.type in config.operateurs.keys() and config.operateurs[config.T.type]["priority"] > prio:
+        while config.T.type in config.operateurs.keys() and config.operateurs[config.T.type]["priority"] >= prio:
             operateur = config.T.type
             self.analyseur.next()
             M = self.E(config.operateurs[operateur]["parg"])

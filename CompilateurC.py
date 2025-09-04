@@ -9,7 +9,6 @@ def main(path : str):
     analyseur_semantique = AnalyseurSemantique(path)
     print("start")
     while config.T.type != "tok_eof":
-        #print("dans main ",config.T.type)
         analyseur_semantique.gencode()
     
     print("debug")

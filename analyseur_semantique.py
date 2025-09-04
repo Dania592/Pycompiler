@@ -10,6 +10,7 @@ class AnalyseurSemantique:
     # Méthode appelé pour générer le code machine
     def gencode(self):
         arbre = self.optim()
+        # arbre.afficher_arbre()
         self.gennode(arbre)
         
     #fait l'analyse sémantique de l'arbre syntaxite avec 0 comme priorité initiale
@@ -29,9 +30,14 @@ class AnalyseurSemantique:
             self.gennode(arbre.fils[0])
             print("sub")
         elif ( arbre.type in config.op_assembleur.keys() ): # si le type du noeud existe dans notre dictoinnaire 
-            print(config.op_assembleur[arbre.type]["prefixe"])
+            prefixe = config.op_assembleur[arbre.type]["prefixe"]
+            if prefixe != "" :
+                print(prefixe)
             for fils in arbre.fils:
                 self.gennode(fils) # on fait de la recursivité sur les fils pour parcourir toute l'expression
-            print(config.op_assembleur[arbre.type]["suffixe"])
+            suffixe = config.op_assembleur[arbre.type]["suffixe"]
+            if suffixe != "":
+                print(suffixe)
+            
             
         
