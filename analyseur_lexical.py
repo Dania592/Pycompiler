@@ -12,7 +12,7 @@ class AnalyserLexical :
         self.length = len(self.text_content)
         self.pos = 0
         self.next()
-        #print("dans l'analyseur lexical : ", config.T.type)
+        
         
     
     def next(self):

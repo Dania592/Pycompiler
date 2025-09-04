@@ -15,6 +15,7 @@ class AnalyseurSemantique:
         return arbre
         
     def gennode(self, arbre : Node):
+        # print(arbre.type)
         if (arbre.type ==  "node_const"): 
             print("push ", arbre.valeur)
         elif (arbre.type == "node_not"):
@@ -24,7 +25,7 @@ class AnalyseurSemantique:
             print("push 0")
             self.gennode(arbre.fils[0])
             print("sub")
-        elif ( arbre.type in config.op_assembleur.keys() ):
+        elif ( arbre.type in config.op_assembleur.keys()):
             print(config.op_assembleur[arbre.type]["prefixe"])
             for fils in arbre.fils:
                 self.gennode(fils)

@@ -7,15 +7,14 @@ class AnalyseurSyntaxique :
     def __init__(self, path : str):
         global T
         self.analyseur = AnalyserLexical(path)
-        #print("analyseur syntaxique ::::: ", config.T.type)
     
     def E(self, prio: int)->Node:
         node=self.P()
-        while config.T.type in config.operateurs.keys() and config.operateurs[config.T.type]["priority"]<prio:
-            operateur= config.T.type
+        while config.T.type in config.operateurs.keys() and config.operateurs[config.T.type]["priority"] > prio:
+            operateur = config.T.type
             self.analyseur.next()
-            M=self.E(config.operateurs[config.T.type]["parg"])
-            N= Node(config.operateurs[config.T.type]["Ntype"])
+            M = self.E(config.operateurs[operateur]["parg"])
+            N= Node(config.operateurs[operateur]["Ntype"])
             N.ajouter_enfant(node)
             N.ajouter_enfant(M)
             node=N
@@ -26,25 +25,21 @@ class AnalyseurSyntaxique :
         ## gestion des expressions simple avec un prefixe et un nom
         ## expression : préfixe ==> délégation du reste à la fonction S
         if (self.analyseur.check("tok_not")):
-            print("token not")
             node = self.P()
             arbre = Node("node_not")
             arbre.ajouter_enfant(node)
             return arbre 
         
         elif (self.analyseur.check("tok_minus")):
-            print("token moins")
             node = self.P()
             arbre = Node("node_neg")
             arbre.ajouter_enfant(node)
             return arbre
         
         elif (self.analyseur.check("tok_plus")):
-            print("token plus")
             return self.P()
         
         else : 
-            print("constante")
             return self.S()
         
     def S(self):

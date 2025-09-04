@@ -23,15 +23,15 @@ class Node :
     ## ajouter un enfant 
     def ajouter_enfant(self, fils:"Node"):
         self.fils.append(fils)
-        print("Ajout d'un fils dans le noeud de type : ",self.type)
+        # print("Ajout d'un fils dans le noeud de type : ",self.type)
 
     ## afficher arbre 
     def afficher_arbre(self):
-        print("(", self.type)
-        for i in self.fils :
-            print(" ")
-            self.fils[i].afficher_arbre()
-        print(")")
+        print("(", self.type, end="")
+        for f in self.fils :
+            print(" ", end="")
+            f.afficher_arbre()
+        print(" )", end="")
 
 
 key_words = {
