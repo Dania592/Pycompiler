@@ -38,20 +38,25 @@ class Node :
             f.afficher_arbre()
         print(" )", end="")
 
-    def afficher_arbre_joli(self, indent: int = 0):
-        # Préparer la ligne avec type + valeur ou chaine si elle existe
+    def afficher_arbre_joli(self, indent: str = "", last: bool = True):
+        # Préparer les infos du noeud
         info = self.type
-        if hasattr(self, "valeur"):
+        if hasattr(self, "valeur") and self.valeur is not None:
             info += f" [valeur={self.valeur}]"
-        elif hasattr(self, "chaine"):
+        if hasattr(self, "chaine") and self.chaine:
             info += f" [chaine='{self.chaine}']"
 
-        # Afficher l'indentation et l'info du noeud
-        print("  " * indent + info)
+        # Préfixe graphique selon si c'est le dernier enfant ou pas
+        branch = "└── " if last else "├── "
+        print(indent + branch + info)
 
-        # Afficher récursivement les enfants avec un niveau d'indentation en plus
-        for f in self.fils:
-            f.afficher_arbre_joli(indent + 1)
+        # Préparer l'indentation pour les enfants
+        indent += "    " if last else "│   "
+
+        # Afficher récursivement les enfants
+        for i, f in enumerate(self.fils):
+            f.afficher_arbre_joli(indent, i == len(self.fils) - 1)
+
 
 # le dictoinnaire key_words associe a chaque type de mot clé (ex : tok_int, ...)  la chaine correspondante dans le langageu compilé
 key_words = {
