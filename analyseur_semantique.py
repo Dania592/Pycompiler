@@ -53,6 +53,10 @@ class AnalyseurSemantique:
             print("set ", arbre.fils[0].index)
         elif (arbre.type == "node_ref"):
             print("get ", arbre.index)
+        elif (arbre.type == "node_drop"):
+            self.gennode(arbre.fils[0])
+            print("drop")
+
             
     def begin(self):
         config.TS.append({})
