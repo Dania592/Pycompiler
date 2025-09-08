@@ -3,6 +3,8 @@ from Object import Token
 T = Token("test",0,"")
 Last = Token("",0,"")
 
+NB_VAR = 0
+
 # Associe chaque token a sa priorité, son type de noeud dans l'arbre syntaxique et la priorité de l'élément qui doit le suivre dans l'expression
 operateurs={
     "tok_plus": {"priority": 5 , "parg":6 , "Ntype": "node_add"},
@@ -41,7 +43,10 @@ op_assembleur={
     "node_gt":{"suffixe": "cmpgt", "prefixe": ""},
     "node_le":{"suffixe": "cmple", "prefixe": ""},
     "node_ge":{"suffixe": "cmpge", "prefixe": ""},
-    "node_debug":{"suffixe": "debug", "prefixe": ""} ## TODO : revoir 
+    "node_debug":{"suffixe": "debug", "prefixe": ""}, ## TODO : revoir 
+    "node_decl" :{"suffixe": "", "prefixe": ""},
+    "node_block" :{"suffixe": "", "prefixe": ""},
+    "node_ref" : {"suffixe": "", "prefixe": ""}
 }
 
 TS = []

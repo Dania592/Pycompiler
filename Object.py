@@ -24,6 +24,7 @@ class Node :
         elif chaine != None : 
             self.chaine = chaine 
         self.fils = [] #liste des enfants de ce noeud pour les branchements de l'arbre
+        self.index = None 
         
     ## Méthode pour ajouter un enfant à un noeud 
     def ajouter_enfant(self, fils:"Node"):
