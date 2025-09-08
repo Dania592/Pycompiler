@@ -48,7 +48,7 @@ class AnalyseurSemantique:
             suffixe = config.op_assembleur[arbre.type]["suffixe"]
             if suffixe != "":
                 print(suffixe)
-        elif (arbre.type == "node_affect"):
+        elif (arbre.type == "node_assign"):
             self.gennode(arbre.fils[1])
             print("dup")
             print("set ", arbre.fils[0].index)
@@ -91,6 +91,6 @@ class AnalyseurSemantique:
         elif (arbre.type == "node_ref"):
             s = self.find(arbre.chaine)
             arbre.index = config.T[s][arbre.chaine]["index"]
-        elif (arbre.type == "node_affect"):
+        elif (arbre.type == "node_assign"):
             if (arbre.fils[0].type != "node_ref"):
                 raise Exception("La partie gauche d'une affectation doit etre une variable")
