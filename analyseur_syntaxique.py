@@ -57,7 +57,7 @@ class AnalyseurSyntaxique :
             self.analyseur.accept("tok_par_close")
             return r
         elif(self.analyseur.check("tok_ident")): 
-            return node("node_ref", config.Last.chaine)
+            return  Node("node_ref", config.Last.chaine)
         
         raise Exception(f"Regle de grammaire non respectée avec le token {config.T.type}")
     
@@ -74,9 +74,10 @@ class AnalyseurSyntaxique :
                 node.ajouter_enfant(self.I())
             return node 
         elif(self.analyseur.check("tok_int")):
-            node = Node("node_decl", config.T.chaine)
+            node = Node("node_decl", chaine = config.T.chaine)
             self.analyseur.accept("tok_ident")
             self.analyseur.accept("tok_semicolon")
+            return node
         else :
             N = self.E(0)
             self.analyseur.accept("tok_semicolon")

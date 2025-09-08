@@ -23,6 +23,7 @@ class AnalyseurSemantique:
     
     def anaSem(self):
         arbre = self.analyseur_syntaxique.I()
+        arbre.afficher_arbre_joli()
         config.NB_VAR = 0
         self.semNode(arbre)
         return arbre
@@ -85,7 +86,7 @@ class AnalyseurSemantique:
             self.end()
         elif (arbre.type == "node_decl"):
             s = self.declare(arbre.chaine)
-            config.TS[0][abre.chaine]["index"] = config.NB_VAR
+            config.TS[0][arbre.chaine]["index"] = config.NB_VAR
             config.NB_VAR += 1
         elif (arbre.type == "node_ref"):
             s = self.find(arbre.chaine)
