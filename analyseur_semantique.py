@@ -90,7 +90,7 @@ class AnalyseurSemantique:
             config.NB_VAR += 1
         elif (arbre.type == "node_ref"):
             s = self.find(arbre.chaine)
-            arbre.index = config.T[s][arbre.chaine]["index"]
+            arbre.index = config.TS[s][arbre.chaine]["index"]
         elif (arbre.type == "node_assign"):
             if (arbre.fils[0].type != "node_ref"):
                 raise Exception("La partie gauche d'une affectation doit etre une variable")
