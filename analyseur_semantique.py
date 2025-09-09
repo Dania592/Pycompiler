@@ -2,6 +2,7 @@ from analyseur_syntaxique import AnalyseurSyntaxique
 from Object import Node
 import config
 
+ll = 0 # variable globale au fichier analyseur semantique pour  les labels 
 #Parcours l'arbre syntaxique pour effectuer des verifications afin de génerer le pseudo code machine
 class AnalyseurSemantique:    
     def __init__(self, path):
@@ -57,6 +58,27 @@ class AnalyseurSemantique:
         elif (arbre.type == "node_drop"):
             self.gennode(arbre.fils[0])
             print("drop")
+        elif(arbre.type == "node_cond"): 
+            l = config.NB_LB + 1
+            self.gennode(arbre.fils[0])
+            print("jump l", l, "a")
+            self.gennode(arbre.fils[1])
+            print("jump l", l, "b")
+            print(".l", l, "a")
+            self.gennode(arbre.fils[2])
+            print(".l", l, "b")
+        elif(arbre.type == "nd_loop"): 
+            temp = ll
+            ll = config.NB_LB + 1
+            print(".l", ll, "a")
+            for fils in arbre.fils:
+                self.gennode(fils)
+            print("jump l", ll, "a")
+            print(".l", ll, "b")
+            ll = temp
+        elif(arbre.type == "node_break"): 
+            print("jump l", ll, "b")
+
 
             
     def begin(self):
@@ -94,3 +116,6 @@ class AnalyseurSemantique:
         elif (arbre.type == "node_assign"):
             if (arbre.fils[0].type != "node_ref"):
                 raise Exception("La partie gauche d'une affectation doit etre une variable")
+        
+            
+ 

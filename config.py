@@ -3,7 +3,8 @@ from Object import Token
 T = Token("test",0,"")
 Last = Token("",0,"")
 
-NB_VAR = 0
+NB_VAR = 0 
+NB_LB = 0 # variable globale qui compte le nombre de label
 
 # Associe chaque token a sa priorité, son type de noeud dans l'arbre syntaxique et la priorité de l'élément qui doit le suivre dans l'expression
 operateurs={
@@ -46,7 +47,10 @@ op_assembleur={
     "node_debug":{"suffixe": "debug", "prefixe": ""}, ## TODO : revoir 
     "node_decl" :{"suffixe": "", "prefixe": ""},
     "node_block" :{"suffixe": "", "prefixe": ""},
-    "node_ref" : {"suffixe": "", "prefixe": ""}
+    "node_ref" : {"suffixe": "", "prefixe": ""},
+    "node_cond" : {"suffixe": "", "prefixe": ""},
+    "node_loop" : {"suffixe": "", "prefixe": ""}, 
+    "node_break" : {"suffixe": "", "prefixe": ""}
 }
 
 TS = []
