@@ -54,6 +54,7 @@ class AnalyseurSemantique:
             print("dup")
             print("set ", arbre.fils[0].index)
         elif (arbre.type == "node_ref"):
+            print("test")
             print("get ", arbre.index)
         elif (arbre.type == "node_drop"):
             self.gennode(arbre.fils[0])
@@ -130,5 +131,6 @@ class AnalyseurSemantique:
                 raise Exception("La partie gauche d'une affectation doit etre une variable")
             self.semNode(arbre.fils[0])
             self.semNode(arbre.fils[1])
-        elif arbre.type == "node_drop":
-            self.semNode(arbre.fils[0])  # on visite le node_assign qui est dedans
+        else:
+            for fils in arbre.fils:
+                self.semNode(fils)

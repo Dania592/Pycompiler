@@ -47,10 +47,10 @@ op_assembleur={
     "node_debug":{"suffixe": "debug", "prefixe": ""}, ## TODO : revoir 
     "node_decl" :{"suffixe": "", "prefixe": ""},
     "node_block" :{"suffixe": "", "prefixe": ""},
-    "node_ref" : {"suffixe": "", "prefixe": ""},
-    "node_cond" : {"suffixe": "", "prefixe": ""},
-    "node_loop" : {"suffixe": "", "prefixe": ""}, 
-    "node_break" : {"suffixe": "", "prefixe": ""}
+    #"node_ref" : {"suffixe": "", "prefixe": ""},
+    #"node_cond" : {"suffixe": "", "prefixe": ""},
+    #"node_loop" : {"suffixe": "", "prefixe": ""}, 
+    #"node_break" : {"suffixe": "", "prefixe": ""}
 }
 
 TS = []
