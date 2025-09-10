@@ -1,0 +1,162 @@
+#Cours 2 : 
+Objectif: 
+    #1-Faire l'arbre 
+    #2-Faire l'analyse synthaxique 
+
+    init()
+    while(T.type!=tok)
+        gencode()
+
+    def gencode():  #c'est un parcours d'arbre A faire Today 
+                    #elle prend pas d'argument
+                    #elle demande à l'optimiseur donne moi le prochain arbre à optimiser
+
+    
+    
+    def optimisateur(): #donner un arbre 
+        A=AnaSem()
+        return A 
+
+    def AnaSem(): #Pour apres
+        A=Anasynth()
+        return A 
+    def AnaSynth():
+       return A 
+
+#creation d'arbre : 
+# structure de noeud: 
+# struct nd {
+    #type:int,
+    #valeur : int 
+    #chaine : str 
+    #nbEnfant : int 
+    # nd  enfant=[] liste d'enfant (tableau) }
+#fonction1 : node(type) -> pour créer les noeuds 
+#fonction2 : ajouter_enfant(nd:parent , nd: enfant )
+#fonction3: afficher_arbre(A: nd)
+
+Analysesyntaxique : 
+    fonction1 E(): #analyse les op mathematiques 
+        #1ere regl
+        # e : contrainte "là ou on ait mtn faut que tu troives une operation math sinon ya erreur"
+        #2: analyser
+        #3 : construire un arbre 
+        #4 / ELLE mange tous les tokens present avant la fin de l'op pour que 
+        # le curseur soit bien à la fin de l'exp math
+        E= nb+E 
+        return 
+
+
+Cours 3: 
+l'associativité 
+priorité  ^
+          |         * / %
+          |         + - 
+          |         < > = == != 
+          |          || 
+          |         && 
+          |          affectation = 
+
+1+2*3 : je lis 1 , Soit je trouve un op binaire  => je continuer de manger jusqu'a trouver le deuxieme argument
+                    Soit je trouve un truc qui me dit c fini. Ex: ; 
+Algo: 
+..    E(int prio):
+        N=A()
+        Si T.type est opbinaire :
+            op= T.type 
+            if (tok[op]prio<prio) break
+            next() prendre l'op passer à l'arg suivant
+            M=  E(tok[op].prio) /* A est atom 
+            R=node2(op , N , M)
+            return R 
+        
+Fonction I(): analyse syntaxique des instructions 
+toutes les var qu'on met dans I commence tjr par un token 
+I <- E; Ex b=5+3; => il respecte le contrat du noeud expression 
+                => je dois drop E : je jette la valeur au sommet de la pile 
+   | {I*} : bloc d'instruction : => faire un noeud bloc qui peut prendre un nbr quelconque d'enfant 
+                                => pour gencode , on rajoute dans le tableau des chaines vides et 
+                                on fait une boucle sur les enfants
+   | debug E ; { 
+                    debug 3+4*5;
+                }== return 3+4*5; => faire un noeud debug qui prend un seul enfant 
+                => pour gencode : donner le code E suivi de dbg 
+
+pseudo code de I 
+node I(){
+    if (check(tok_debug)){
+        N=E(0);
+        accept(tok_pointvirgule);
+        return node_1(nd_debug,N);
+    }
+    else:
+        if (check(tok_acoladeouvrante)){
+            N=node(nd_block);
+            while(!check(token_acoladefermente)){
+                ajouterenfant(N,I());
+            }
+            return N
+        }
+        else:
+            N=E(0);
+            accept(tok_pointvirg);
+            return node1(nd_drop,N);
+}
+
+les fct suivantes on les implemente ajrd 4/9 /2025 , mais on les utilise pas ajrd 
+elles sereont utilisé dans l'analyse semantique 
+les fonctions : begin , end :
+    J'appelle begin quand je définis une nouvelle porté lexicale:  { : push(newtable)=> push tableau de hachage vide
+    J'apelle end quand : } : pop()
+fonction  sym declare(name: str ) -> je veux déclarer un nouveau symbole  (variable)
+    =>sym: c'est une strucut
+    => make sure le variable n'existe pas , on 
+    pseudo code : 
+    sym declare(name: str ): 
+        if ( TS.top.find(name)): //top hia la table d'en haut dans la table de hachage , 
+                                //ce find c'est une fonction qui corr à la table 
+            erreur 
+        sym= ... 
+        TS.top[name]= sym
+        return sym
+
+
+
+fonction  sym find(name:str) -> l'utilisateur veut utiliser le variable toto 
+  => elle va chercher la variable et m'envoyer la structure variable pour voir a quoi elle correspond 
+  pseudo code :
+    sym find(name:str): 
+        for i from top to bottom : 
+            if TS[i][name] ou TS[i].find(name) // c pas le meme find 
+                return  TS[i][name]
+        erreur 
+
+
+COURS 3 
+les var sont des int 
+chercher et modifier la variable 
+=> changer l atom 
+A <- soit une constante , soit une exp entre prenthèse => mtn on rajoute les variables (ident )
+quand je dclare une var => creer noeud declaration var et l'identifiant je le mets dans le noeud 
+
+I<-
+    else if (check(tok_int)){
+        N= node_c(nd_decl, T.chaine)
+        accept(tok_ident), accept(tok_pt)
+        return N 
+    }
+
+A<-  
+    else if (check(tok_ident))
+        return node_c(nd_ref, last.chaine)
+
+
+Cours 9/9/2025 
+I<- ...
+    | if (E) I (else I)? 
+_______
+|Noeud |__|E|
+        \
+         \ |I1| ou |I2?|
+         
+          

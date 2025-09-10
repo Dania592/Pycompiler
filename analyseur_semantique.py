@@ -122,6 +122,13 @@ class AnalyseurSemantique:
             sym = self.find(name)
             arbre.index = sym["index"]
 
+        
+     
+
         elif (arbre.type == "node_assign"):
             if (arbre.fils[0].type != "node_ref"):
                 raise Exception("La partie gauche d'une affectation doit etre une variable")
+            self.semNode(arbre.fils[0])
+            self.semNode(arbre.fils[1])
+        elif arbre.type == "node_drop":
+            self.semNode(arbre.fils[0])  # on visite le node_assign qui est dedans
