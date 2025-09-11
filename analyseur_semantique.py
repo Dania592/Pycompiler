@@ -66,8 +66,9 @@ class AnalyseurSemantique:
             self.gennode(arbre.fils[1])
             print("jump l", l, "b")
             print(".l", l, "a")
-            self.gennode(arbre.fils[2])
-            print(".l", l, "b")
+            if arbre.fils[2]!= None :  # essayer de voir une condition sur I2 car des fois il existe pas 
+                self.gennode(arbre.fils[2])
+                print(".l", l, "b")
         elif(arbre.type == "nd_loop"): 
             temp = ll
             ll = config.NB_LB + 1

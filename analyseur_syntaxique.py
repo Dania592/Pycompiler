@@ -83,16 +83,17 @@ class AnalyseurSyntaxique :
             E1 = self.E(0)
             self.analyseur.accept("tok_par_close")
             I1 = self.I()
-            I2 = None
+            N1 = Node("node_cond")
             if(self.analyseur.check("tok_else")):
                 I2 = self.I()
-            N1 = Node("node_cond")
-            N1.ajouter_enfant(N1)
+                N1.ajouter_enfant(I2)
+            
+            
             N1.ajouter_enfant(E1)
-            N1.ajouter_enfant(N1)
+            
             N1.ajouter_enfant(I1)
-            N1.ajouter_enfant(N1)
-            N1.ajouter_enfant(I2)
+            
+            
             return N1
         else :
             N = self.E(0)
