@@ -66,7 +66,7 @@ class AnalyseurSemantique:
             self.gennode(arbre.fils[1])
             print("jump l", l, "b")
             print(".l", l, "a")
-            if arbre.fils[2]!= None :  # essayer de voir une condition sur I2 car des fois il existe pas 
+            if len(arbre.fils) > 2 and arbre.fils[2] is not None: # on s'assure que le else existe
                 self.gennode(arbre.fils[2])
                 print(".l", l, "b")
         elif(arbre.type == "nd_loop"): 
