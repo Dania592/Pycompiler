@@ -21,7 +21,7 @@ operateurs={
     "tok_gt":{"priority": 4.5 , "parg":5 , "Ntype":"node_gt"},
     "tok_le":{"priority": 4.5 , "parg":5 , "Ntype":"node_le"},
     "tok_ge":{"priority": 4.5 , "parg":5 , "Ntype":"node_ge"},
-    "tok_assign":{"priority": 1 , "parg":1 , "Ntype":"node_assign"}
+    "tok_assign":{"priority": 1 , "parg":1 , "Ntype":"node_affect"}
 
 }
 
