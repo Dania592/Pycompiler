@@ -95,6 +95,63 @@ class AnalyseurSyntaxique :
             
             
             return N1
+        elif(self.analyseur.check("tok_while")):
+            self.analyseur.accept("tok_par_open")
+            E1 = self.E(0)
+            self.analyseur.accept("tok_par_close")
+            I1 = self.I()
+
+            N1 = Node("nd_loop")
+            N2 = Node("nd_cond")
+            N1.ajouter_enfant(N2)
+            N2.ajouter_enfant(E1)
+            N2.ajouter_enfant(I1)
+            return N1
+        elif(self.analyseur.check("tok_do")):
+            I1 = self.I()
+            self.analyseur.accept("tok_while")
+            self.analyseur.accept("tok_par_open")
+            E1 = self.E(0)
+            self.analyseur.accept("tok_par_close")
+            N1 = Node("nd_loop")
+            N1.ajouter_enfant(I1)
+            N2 = Node("nd_target")
+            N1.ajouter_enfant(N2)
+            N3 = Node("nd_cond")
+            N1.ajouter_enfant(N3)
+            N4 = Node("nd_not")
+            N3.ajouter_enfant(N4)
+            N5 = Node("nd_break")
+            N3.ajouter_enfant(N5)
+            N5.ajouter_enfant(E1)
+            return N1
+        elif(self.analyseur.check("tok_for")): 
+            self.analyseur.accept("tok_par_open")
+            E1 = self.E(0)
+            E2 = self.E(0)
+            E3 = self.E(0)
+            self.analyseur.accept("tok_par_close")
+            I1 = self.I()
+            N1 = Node("nd_seq")
+            N2 = Node("nd_loop")
+            N3 = Node("nd_drop")
+            N1.ajouter_enfant(N2)
+            N1.ajouter_enfant(N3)
+            N3.ajouter_enfant(E1)
+            N4 = Node("nd_cond")
+            N2.ajouter_enfant(N4)
+            N4.ajouter_enfant(E2)
+            N5 = Node("nd_break")
+            N4.ajouter_enfant(N5)
+            N6 = Node("nd_seq")
+            N7 = Node("nd_target")
+            N8 = Node("nd_drop")
+            N6.ajouter_enfant(I1)
+            N6.ajouter_enfant(N7)
+            N6.ajouter_enfant(N8)
+            N8.ajouter_enfant(E3)
+            return N1
+
         else :
             N = self.E(0)
             self.analyseur.accept("tok_semicolon")
