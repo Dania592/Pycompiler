@@ -80,9 +80,9 @@ class AnalyseurSemantique:
             ll = temp
         elif(arbre.type == "node_break"): 
             print("jump l", ll, "b")
-        elif(arbre.type == "nd_continue"):
+        elif(arbre.type == "node_continue"):
             print("jump l", ll, "c")
-        elif(arbre.type == "nd_target"): 
+        elif(arbre.type == "node_target"): 
             print(".l", ll, "b")
 
 
