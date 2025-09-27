@@ -113,6 +113,7 @@ class AnalyseurSyntaxique :
             self.analyseur.accept("tok_par_open")
             E1 = self.E(0)
             self.analyseur.accept("tok_par_close")
+            self.analyseur.accept("tok_semicolon")
             N1 = Node("node_loop")
             N1.ajouter_enfant(I1)
             N2 = Node("node_target")
@@ -128,7 +129,9 @@ class AnalyseurSyntaxique :
         elif(self.analyseur.check("tok_for")): 
             self.analyseur.accept("tok_par_open")
             E1 = self.E(0)
+            self.analyseur.accept("tok_semicolon")
             E2 = self.E(0)
+            self.analyseur.accept("tok_semicolon")
             E3 = self.E(0)
             self.analyseur.accept("tok_par_close")
             I1 = self.I()
