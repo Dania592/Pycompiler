@@ -2,6 +2,7 @@ from analyseur_syntaxique import AnalyseurSyntaxique
 from Object import Node
 import config
 
+ll = 0 # variable globale au fichier analyseur semantique pour  les labels 
 #Parcours l'arbre syntaxique pour effectuer des verifications afin de génerer le pseudo code machine
 class AnalyseurSemantique:    
     def __init__(self, path):
@@ -46,15 +47,42 @@ class AnalyseurSemantique:
             suffixe = config.op_assembleur[arbre.type]["suffixe"]
             if suffixe != "":
                 print(suffixe)
-        elif (arbre.type == "node_affect"):
+        elif (arbre.type == "node_assign"):
             self.gennode(arbre.fils[1])
             print("dup")
             print("set ", arbre.fils[0].index)
         elif (arbre.type == "node_ref"):
+            print("test")
             print("get ", arbre.index)
         elif (arbre.type == "node_drop"):
             self.gennode(arbre.fils[0])
             print("drop")
+        elif(arbre.type == "node_cond"): 
+            l = config.NB_LB + 1
+            self.gennode(arbre.fils[0])
+            print("jump l", l, "a")
+            self.gennode(arbre.fils[1])
+            print("jump l", l, "b")
+            print(".l", l, "a")
+            if len(arbre.fils) > 2 and arbre.fils[2] is not None: # on s'assure que le else existe
+                self.gennode(arbre.fils[2])
+                print(".l", l, "b")
+        elif(arbre.type == "nd_loop"): 
+            temp = ll
+            ll = config.NB_LB + 1
+            print(".l", ll, "a")
+            for fils in arbre.fils:
+                self.gennode(fils)
+            print("jump l", ll, "a")
+            print(".l", ll, "b")
+            ll = temp
+        elif(arbre.type == "node_break"): 
+            print("jump l", ll, "b")
+        elif(arbre.type == "node_continue"):
+            print("jump l", ll, "c")
+        elif(arbre.type == "node_target"): 
+            print(".l", ll, "b")
+
 
             
     def begin(self):
@@ -66,16 +94,18 @@ class AnalyseurSemantique:
     def declare(self, name: str) -> dict :
         if(not config.TS and name in config.TS[0]): ## erreur quand TS vide 
             raise Exception(f"La varibale {name} existe deja dans le block")
-        sym = {name : {"index" : None, "name" : name}}
+        sym = {name : {"index" : 0, "name" : name}}
         config.TS[0].update(sym)
         return sym 
     
-    def find (self , name:str):
-        for i in config.TS : 
-            if config.TS[i][name]:
-                return  i #on veut recuperer les infos de la variable 
-        raise Exception(f"la variable n'existe pas")
-        
+    
+    
+    def find(self, name: str) -> dict:
+        for table in reversed(config.TS):  # on parcourt les scopes de haut en bas
+            if name in table:              # si la variable existe dans cette table
+                return table[name]         # on renvoie son symbole
+        raise Exception(f"La variable '{name}' n'existe pas")
+
     def semNode(self, arbre : Node):
         if (arbre.type ==  "node_block"):
             self.begin()
@@ -84,11 +114,26 @@ class AnalyseurSemantique:
             self.end()
         elif (arbre.type == "node_decl"):
             s = self.declare(arbre.chaine)
+           
             config.TS[0][arbre.chaine]["index"] = config.NB_VAR
+            
             config.NB_VAR += 1
+        
         elif (arbre.type == "node_ref"):
-            s = self.find(arbre.chaine)
-            arbre.index = config.T[s][arbre.chaine]["index"]
-        elif (arbre.type == "node_affect"):
+            name = getattr(arbre, "chaine", None) or getattr(arbre, "valeur", None)
+            if name is None:
+                raise Exception("node_ref sans nom")
+            sym = self.find(name)
+            arbre.index = sym["index"]
+
+        
+     
+
+        elif (arbre.type == "node_assign"):
             if (arbre.fils[0].type != "node_ref"):
                 raise Exception("La partie gauche d'une affectation doit etre une variable")
+            self.semNode(arbre.fils[0])
+            self.semNode(arbre.fils[1])
+        else:
+            for fils in arbre.fils:
+                self.semNode(fils)

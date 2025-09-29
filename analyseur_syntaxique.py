@@ -78,6 +78,83 @@ class AnalyseurSyntaxique :
             self.analyseur.accept("tok_ident")
             self.analyseur.accept("tok_semicolon")
             return node
+        elif(self.analyseur.check("tok_if")): 
+            self.analyseur.accept("tok_par_open")
+            E1 = self.E(0)
+            self.analyseur.accept("tok_par_close")
+            I1 = self.I()
+            N1 = Node("node_cond")
+            if(self.analyseur.check("tok_else")):
+                I2 = self.I()
+                N1.ajouter_enfant(I2)
+            
+            
+            N1.ajouter_enfant(E1)
+            
+            N1.ajouter_enfant(I1)
+            
+            
+            return N1
+        elif(self.analyseur.check("tok_while")):
+            self.analyseur.accept("tok_par_open")
+            E1 = self.E(0)
+            self.analyseur.accept("tok_par_close")
+            I1 = self.I()
+
+            N1 = Node("node_loop")
+            N2 = Node("node_cond")
+            N1.ajouter_enfant(N2)
+            N2.ajouter_enfant(E1)
+            N2.ajouter_enfant(I1)
+            return N1
+        elif(self.analyseur.check("tok_do")):
+            I1 = self.I()
+            self.analyseur.accept("tok_while")
+            self.analyseur.accept("tok_par_open")
+            E1 = self.E(0)
+            self.analyseur.accept("tok_par_close")
+            self.analyseur.accept("tok_semicolon")
+            N1 = Node("node_loop")
+            N1.ajouter_enfant(I1)
+            N2 = Node("node_target")
+            N1.ajouter_enfant(N2)
+            N3 = Node("node_cond")
+            N1.ajouter_enfant(N3)
+            N4 = Node("node_not")
+            N3.ajouter_enfant(N4)
+            N5 = Node("node_break")
+            N3.ajouter_enfant(N5)
+            N5.ajouter_enfant(E1)
+            return N1
+        elif(self.analyseur.check("tok_for")): 
+            self.analyseur.accept("tok_par_open")
+            E1 = self.E(0)
+            self.analyseur.accept("tok_semicolon")
+            E2 = self.E(0)
+            self.analyseur.accept("tok_semicolon")
+            E3 = self.E(0)
+            self.analyseur.accept("tok_par_close")
+            I1 = self.I()
+            N1 = Node("node_seq")
+            N2 = Node("node_loop")
+            N3 = Node("node_drop")
+            N1.ajouter_enfant(N2)
+            N1.ajouter_enfant(N3)
+            N3.ajouter_enfant(E1)
+            N4 = Node("node_cond")
+            N2.ajouter_enfant(N4)
+            N4.ajouter_enfant(E2)
+            N5 = Node("node_break")
+            N4.ajouter_enfant(N5)
+            N6 = Node("node_seq")
+            N7 = Node("node_target")
+            N8 = Node("node_drop")
+            N6.ajouter_enfant(I1)
+            N6.ajouter_enfant(N7)
+            N6.ajouter_enfant(N8)
+            N8.ajouter_enfant(E3)
+            return N1
+
         else :
             N = self.E(0)
             self.analyseur.accept("tok_semicolon")
