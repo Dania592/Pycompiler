@@ -11,7 +11,7 @@ class AnalyseurSemantique:
     # Méthode appelé pour générer le code machine
     def gencode(self):
         arbre = self.optim()
-        # arbre.afficher_arbre_joli()
+        arbre.afficher_arbre_joli()
         print("resn ", config.NB_VAR)
         self.gennode(arbre)
         print("drop ", config.NB_VAR)

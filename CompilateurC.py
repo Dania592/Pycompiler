@@ -13,5 +13,4 @@ def main(path : str):
     print("dbg")
     print("halt")
 
-
-main("text.txt")
+main("text.txt") 
