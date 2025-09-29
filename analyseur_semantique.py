@@ -52,11 +52,11 @@ class AnalyseurSemantique:
             print("dup")
             print("set ", arbre.fils[0].index)
         elif (arbre.type == "node_ref"):
-            print("test")
+            # print("test")
             print("get ", arbre.index)
         elif (arbre.type == "node_drop"):
             self.gennode(arbre.fils[0])
-            print("drop")
+            print("drop ", config.NB_VAR)
         elif(arbre.type == "node_cond"): 
             l = config.NB_LB + 1
             self.gennode(arbre.fils[0])

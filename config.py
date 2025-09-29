@@ -44,7 +44,7 @@ op_assembleur={
     "node_gt":{"suffixe": "cmpgt", "prefixe": ""},
     "node_le":{"suffixe": "cmple", "prefixe": ""},
     "node_ge":{"suffixe": "cmpge", "prefixe": ""},
-    "node_debug":{"suffixe": "debug", "prefixe": ""}, ## TODO : revoir 
+    "node_debug":{"suffixe": "dbg", "prefixe": ""}, ## TODO : revoir 
     "node_decl" :{"suffixe": "", "prefixe": ""},
     "node_block" :{"suffixe": "", "prefixe": ""},
     #"node_ref" : {"suffixe": "", "prefixe": ""},

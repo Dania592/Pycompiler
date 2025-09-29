@@ -1,16 +1,6 @@
 {
     int x;
-    x = 2 + 3;
-
-    {
-        int x;
-        int a;
-        a = 1; 
-        x = 0; 
-        for(x = 0 ; x<5 ; x = x +1){
-            a = a+1; 
-        }
-        
-        x = x +4; 
-    }
+    x = 0;
+    x = 2+3;
+    debug x;
 }

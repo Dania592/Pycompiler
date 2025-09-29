@@ -109,6 +109,3 @@ class AnalyserLexical :
         if (not self.check(type)):
             raise Exception(f"Le type attendu <{type}> ne correspond par au type du token <{config.T.type}>")
 
-# analyseur  = AnalyserLexical("text.txt")
-# while T.type != "tok_eof":
-#     analyseur.next()
