@@ -11,7 +11,7 @@ class AnalyseurSemantique:
     # Méthode appelé pour générer le code machine
     def gencode(self):
         arbre = self.optim()
-        arbre.afficher_arbre_joli()
+        # arbre.afficher_arbre_joli()
         print("resn ", config.NB_VAR)
         self.gennode(arbre)
         print("drop ", config.NB_VAR)
@@ -66,7 +66,7 @@ class AnalyseurSemantique:
             print(f".l{l}a")
             if len(arbre.fils) > 2 and arbre.fils[2] is not None: # on s'assure que le else existe
                 self.gennode(arbre.fils[2])
-                print(f".l{l}b")
+            print(f".l{l}b")
         elif(arbre.type == "node_loop"): 
             temp = ll
             ll = config.NB_LB + 1
