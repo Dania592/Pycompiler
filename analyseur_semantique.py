@@ -62,28 +62,28 @@ class AnalyseurSemantique:
         elif(arbre.type == "node_cond"): 
             l = config.NB_LB + 1
             self.gennode(arbre.fils[0])
-            print("jump l", l, "a")
+            print("jump l",l, "a")
             self.gennode(arbre.fils[1])
-            print("jump l", l, "b")
-            print(".l", l, "a")
+            print("jump l",l, "b")
+            print(".l",l, "a")
             if len(arbre.fils) > 2 and arbre.fils[2] is not None: # on s'assure que le else existe
                 self.gennode(arbre.fils[2])
-                print(".l", l, "b")
-        elif(arbre.type == "nd_loop"): 
+                print(".l",l, "b")
+        elif(arbre.type == "node_loop"): 
             temp = ll
             ll = config.NB_LB + 1
-            print(".l", ll, "a")
+            print(".l",ll, "a")
             for fils in arbre.fils:
                 self.gennode(fils)
             print("jump l", ll, "a")
-            print(".l", ll, "b")
+            print(".l",ll, "b")
             ll = temp
         elif(arbre.type == "node_break"): 
-            print("jump l", ll, "b")
+            print("jump l",ll, "b")
         elif(arbre.type == "node_continue"):
-            print("jump l", ll, "c")
+            print("jump l",ll, "c")
         elif(arbre.type == "node_target"): 
-            print(".l", ll, "b")
+            print(".l",ll, "b")
 
 
             
