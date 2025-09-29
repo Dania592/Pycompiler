@@ -1,0 +1,15 @@
+.start
+resn  1
+get  0
+push  0
+drop  1
+get  0
+push  2
+push  3
+add
+drop  1
+get  0
+dbg
+drop  1
+dbg
+halt

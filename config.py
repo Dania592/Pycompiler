@@ -22,7 +22,7 @@ operateurs={
     "tok_gt":{"priority": 4.5 , "parg":5 , "Ntype":"node_gt"},
     "tok_le":{"priority": 4.5 , "parg":5 , "Ntype":"node_le"},
     "tok_ge":{"priority": 4.5 , "parg":5 , "Ntype":"node_ge"},
-    "tok_assign":{"priority": 1 , "parg":1 , "Ntype":"node_assign"}
+    "tok_assign":{"priority": 1 , "parg":1 , "Ntype":"node_affect"}
 
 }
 
@@ -44,7 +44,7 @@ op_assembleur={
     "node_gt":{"suffixe": "cmpgt", "prefixe": ""},
     "node_le":{"suffixe": "cmple", "prefixe": ""},
     "node_ge":{"suffixe": "cmpge", "prefixe": ""},
-    "node_debug":{"suffixe": "debug", "prefixe": ""}, ## TODO : revoir 
+    "node_debug":{"suffixe": "dbg", "prefixe": ""}, ## TODO : revoir 
     "node_decl" :{"suffixe": "", "prefixe": ""},
     "node_block" :{"suffixe": "", "prefixe": ""},
     #"node_ref" : {"suffixe": "", "prefixe": ""},

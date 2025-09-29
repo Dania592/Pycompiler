@@ -11,20 +11,18 @@ class AnalyseurSemantique:
     # Méthode appelé pour générer le code machine
     def gencode(self):
         arbre = self.optim()
+        # arbre.afficher_arbre_joli()
         print("resn ", config.NB_VAR)
-        # arbre.afficher_arbre()
         self.gennode(arbre)
         print("drop ", config.NB_VAR)
         
     #fait l'analyse sémantique de l'arbre syntaxite avec 0 comme priorité initiale
     def optim(self):
         arbre = self.anaSem()
-        # arbre.afficher_arbre_joli()
         return arbre
     
     def anaSem(self):
         arbre = self.analyseur_syntaxique.I()
-        arbre.afficher_arbre_joli()
         config.NB_VAR = 0
         self.semNode(arbre)
         return arbre
@@ -54,11 +52,11 @@ class AnalyseurSemantique:
             print("dup")
             print("set ", arbre.fils[0].index)
         elif (arbre.type == "node_ref"):
-            print("test")
+            # print("test")
             print("get ", arbre.index)
         elif (arbre.type == "node_drop"):
             self.gennode(arbre.fils[0])
-            print("drop")
+            print("drop ", config.NB_VAR)
         elif(arbre.type == "node_cond"): 
             l = config.NB_LB + 1
             self.gennode(arbre.fils[0])
