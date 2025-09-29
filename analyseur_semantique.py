@@ -74,14 +74,14 @@ class AnalyseurSemantique:
             for fils in arbre.fils:
                 self.gennode(fils)
             print("jump l", ll, "a")
-            print(".l",ll, "b")
+            print(f".l",ll, "b")
             ll = temp
         elif(arbre.type == "node_break"): 
             print("jump l",ll, "b")
         elif(arbre.type == "node_continue"):
             print("jump l",ll, "c")
         elif(arbre.type == "node_target"): 
-            print(".l",ll, "b")
+            print(".l",ll, "c")
 
 
             
