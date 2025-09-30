@@ -11,7 +11,6 @@ class AnalyseurSemantique:
     # Méthode appelé pour générer le code machine
     def gencode(self):
         arbre = self.optim()
-        # arbre.afficher_arbre_joli()
         print("resn ", config.NB_VAR)
         self.gennode(arbre)
         print("drop ", config.NB_VAR)
@@ -38,6 +37,9 @@ class AnalyseurSemantique:
             print("push 0")
             self.gennode(arbre.fils[0])
             print("sub")
+        elif (arbre.type == "node_debug"):
+            self.gennode(arbre.fils[0])
+            print("dbg")
         elif ( arbre.type in config.op_assembleur.keys() ): # si le type du noeud existe dans notre dictoinnaire 
             prefixe = config.op_assembleur[arbre.type]["prefixe"]
             if prefixe != "" :
@@ -56,9 +58,15 @@ class AnalyseurSemantique:
             print("get ", arbre.index)
         elif (arbre.type == "node_drop"):
             self.gennode(arbre.fils[0])
-            print("drop ", config.NB_VAR)
+            # erreur psk ici  on droit le nombre de variable et non la vrai valeur
+            # arbre.afficher_arbre_joli() 
+            # t = self.find(arbre.fils[0].chaine)
+            # print(t)
+            print("drop 1")
+            
         elif(arbre.type == "node_cond"): 
             l = config.NB_LB + 1
+            # arbre.afficher_arbre_joli()
             self.gennode(arbre.fils[0])
             print(f"jump l{l}a")
             self.gennode(arbre.fils[1])
@@ -116,6 +124,7 @@ class AnalyseurSemantique:
             s = self.declare(arbre.chaine)
            
             config.TS[0][arbre.chaine]["index"] = config.NB_VAR
+            # print(config.TS)
             
             config.NB_VAR += 1
         

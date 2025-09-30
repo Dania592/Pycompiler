@@ -10,7 +10,6 @@ def main(path : str):
     print(".start")
     while config.T.type != "tok_eof":
         analyseur_semantique.gencode()
-    print("dbg")
     print("halt")
 
 main("text.txt") 
