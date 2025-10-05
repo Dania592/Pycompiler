@@ -2,7 +2,6 @@ from analyseur_syntaxique import AnalyseurSyntaxique
 from Object import Node
 import config
 
-ll = 0 # variable globale au fichier analyseur semantique pour  les labels 
 #Parcours l'arbre syntaxique pour effectuer des verifications afin de génerer le pseudo code machine
 class AnalyseurSemantique:    
     def __init__(self, path):
@@ -64,32 +63,34 @@ class AnalyseurSemantique:
             # print(t)
             print("drop 1")
             
-        elif(arbre.type == "node_cond"): 
-            l = config.NB_LB + 1
-            # arbre.afficher_arbre_joli()
+        elif arbre.type == "node_cond":
+            config.NB_LB += 1
+            l = config.NB_LB
             self.gennode(arbre.fils[0])
-            print(f"jump l{l}a")
+            print(f"jumpf l{l}a")
             self.gennode(arbre.fils[1])
             print(f"jump l{l}b")
             print(f".l{l}a")
-            if len(arbre.fils) > 2 and arbre.fils[2] is not None: # on s'assure que le else existe
+            if len(arbre.fils) > 2 and arbre.fils[2] is not None:
                 self.gennode(arbre.fils[2])
             print(f".l{l}b")
+
         elif(arbre.type == "node_loop"): 
-            temp = ll
-            ll = config.NB_LB + 1
-            print(f".l{ll}a")
+            temp = config.ll
+            config.NB_LB += 1
+            config.ll = config.NB_LB
+            print(f".l{config.ll}a")
             for fils in arbre.fils:
                 self.gennode(fils)
-            print(f"jump l{ll}a")
-            print(f".l{ll}b")
-            ll = temp
+            print(f"jump l{config.ll}a")
+            print(f".l{config.ll}b")
+            #config.ll = temp
         elif(arbre.type == "node_break"): 
-            print(f"jump l{ll}b")
+            print(f"jump l{config.ll}b")
         elif(arbre.type == "node_continue"):
-            print(f"jump l{ll}c")
+            print(f"jump l{config.ll}c")
         elif(arbre.type == "node_target"): 
-            print(f".l{ll}c")
+            print(f".l{config.ll}c")
 
 
             

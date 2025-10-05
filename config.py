@@ -5,6 +5,7 @@ Last = Token("",0,"")
 
 NB_VAR = 0 
 NB_LB = 0 # variable globale qui compte le nombre de label
+ll = 0 # variable globale au fichier analyseur semantique pour  les labels 
 
 # Associe chaque token a sa priorité, son type de noeud dans l'arbre syntaxique et la priorité de l'élément qui doit le suivre dans l'expression
 operateurs={
