@@ -84,13 +84,17 @@ class AnalyseurSemantique:
                 self.gennode(fils)
             print(f"jump l{config.ll}a")
             print(f".l{config.ll}b")
-            #config.ll = temp
+            config.ll = temp
         elif(arbre.type == "node_break"): 
             print(f"jump l{config.ll}b")
         elif(arbre.type == "node_continue"):
             print(f"jump l{config.ll}c")
         elif(arbre.type == "node_target"): 
             print(f".l{config.ll}c")
+        elif arbre.type == "node_seq":
+            for fils in arbre.fils:
+                self.gennode(fils)
+
 
 
             
