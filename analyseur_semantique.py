@@ -24,6 +24,7 @@ class AnalyseurSemantique:
         arbre = self.analyseur_syntaxique.I()
         config.NB_VAR = 0
         self.semNode(arbre)
+        
         return arbre
         
     # Méthode qui parcours récursivement l'arbre de noeud et génère le code machine associé a chaque noeud
@@ -65,15 +66,16 @@ class AnalyseurSemantique:
             print("drop 1")
             
         elif(arbre.type == "node_cond"): 
+            
             l = config.NB_LB + 1
             # arbre.afficher_arbre_joli()
             self.gennode(arbre.fils[0])
             print(f"jump l{l}a")
-            self.gennode(arbre.fils[1])
-            print(f"jump l{l}b")
-            print(f".l{l}a")
             if len(arbre.fils) > 2 and arbre.fils[2] is not None: # on s'assure que le else existe
                 self.gennode(arbre.fils[2])
+            print(f"jump l{l}b")
+            print(f".l{l}a")
+            self.gennode(arbre.fils[1])
             print(f".l{l}b")
         elif(arbre.type == "node_loop"): 
             temp = ll
