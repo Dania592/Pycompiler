@@ -1,6 +1,15 @@
 {
     int x;
-    x = 10;
+    x = 2 + 3;  
+    debug x; 
+    x = x + 4 ; 
+    debug x; 
+    int i; 
+    i = 0; 
+    for(i = 0 ; i < 6 ; i = i +1){
+        debug i; 
+    }
+    
     debug x;
     if(x > 9){
         x = 5;
