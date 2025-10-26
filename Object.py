@@ -27,9 +27,8 @@ class Node :
         self.index = None 
         
     ## Méthode pour ajouter un enfant à un noeud 
-    def ajouter_enfant(self, fils:"Node"):
-        self.fils.append(fils)
-        # print("Ajout d'un fils dans le noeud de type : ",self.type)
+    def ajouter_enfant(self, f:"Node"):
+        self.fils.append(f)
 
     ## Méthode pour afficher l'arbre 
     def afficher_arbre(self):
