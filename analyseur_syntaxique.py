@@ -43,7 +43,21 @@ class AnalyseurSyntaxique :
             return self.S()
         
     def S(self):
-        return self.A()
+        N = self.A()
+        if(self.analyseur.check("tok_par_open")): 
+            T = Node("node_appel")
+            T.ajouter_enfant(N)
+            if(not self.analyseur.check("tok_par_close")): 
+                while True: 
+                    self.analyseur.accept("tok_int")
+                    self.analyseur.accept("tok_ident")
+                    N1 =  Node("node_decl", chaine = config.Last.chaine)
+                    T.ajouter_enfant(N1)
+                    if not self.analyseur.check("tok_comma"): 
+                        break
+                self.analyseur.accept("tok_par_close")
+            return T
+        return N
     
     def A(self):
         global Last
@@ -57,7 +71,7 @@ class AnalyseurSyntaxique :
             self.analyseur.accept("tok_par_close")
             return r
         elif(self.analyseur.check("tok_ident")): 
-            return  Node("node_ref", config.Last.chaine)
+            return  Node("node_ref", chaine = config.Last.chaine)
         
         raise Exception(f"Regle de grammaire non respectée avec le token {config.T.type}")
     
@@ -155,6 +169,11 @@ class AnalyseurSyntaxique :
             N6.ajouter_enfant(N8)
             N8.ajouter_enfant(E3)
             return N1
+        elif(self.analyseur.check("tok_return")): 
+            N = Node("node_ret")
+            N1 = self.E(0)
+            N.ajouter_enfant(N1)
+            return N
 
         else :
             N = self.E(0)
@@ -162,4 +181,39 @@ class AnalyseurSyntaxique :
             node = Node("node_drop")
             node.ajouter_enfant(N)
             return node
+        
+    # definition de fonction 
+    def F(self) ->Node : 
+        if self.analyseur.check("tok_int"): 
+            # on ne fait rien , le token est consommé 
+            pass # on utilise ce mot pour permetrre de passer car python ne permet pas de bloc condition vide 
+        elif self.analyseur.check("tok_void"): 
+             # on ne fait rien , le token est consommé 
+             pass
+            
+        else:
+            raise Exception("Type de retour de fonction attendu (int ou void)")
+        
+        self.analyseur.accept("tok_ident")
+        node = Node("node_fonct", chaine= config.Last.chaine)
+        self.analyseur.accept("tok_par_open")
+        if not self.analyseur.check("tok_par_close"):
+            while True:
+                self.analyseur.accept("tok_int")
+                self.analyseur.accept("tok_ident")
+                N = Node("node_decl", chaine = config.Last.chaine)
+                config.NB_ARG += 1
+                node.ajouter_enfant(N)
+                if self.analyseur.check("tok_comma"):
+                    self.analyseur.accept("tok_comma")
+                else:
+                    break
+            self.analyseur.accept("tok_par_close")
+
+        I1 = self.I()
+        node.nbArg = config.NB_ARG
+        config.NB_ARG = 0
+        node.ajouter_enfant(I1)
+        return node
+
         
