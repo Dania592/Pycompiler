@@ -22,7 +22,7 @@ class AnalyseurSemantique:
         return arbre
     
     def anaSem(self):
-        arbre = self.analyseur_syntaxique.I()
+        arbre = self.analyseur_syntaxique.F()
         config.NB_VAR = 0
         self.semNode(arbre)
         
@@ -47,6 +47,10 @@ class AnalyseurSemantique:
             self.gennode(arbre.fils[0])
             config.CODE_ASM += "dbg\n"
             # print("dbg")
+        elif (arbre.type == "node_ret"):
+            self.gennode(arbre.fils[0])
+            config.CODE_ASM += "ret\n"
+            # print("ret")
         elif ( arbre.type in config.op_assembleur.keys() ): # si le type du noeud existe dans notre dictoinnaire 
             prefixe = config.op_assembleur[arbre.type]["prefixe"]
             if prefixe != "" :
@@ -82,19 +86,17 @@ class AnalyseurSemantique:
             self.gennode(arbre.fils[0])
             config.CODE_ASM += f"jumpf l{l}a\n"
             # print(f"jumpf l{l}a")
-            self.gennode(arbre.fils[1])
-            config.CODE_ASM += f"jumpf l{l}b\n"
+            self.gennode(arbre.fils[1]) ## EMELIE 
+            config.CODE_ASM += f"jumpf l{l}b\n"  
             # print(f"jump l{l}b")
             config.CODE_ASM += f".l{l}a\n"
             # print(f".l{l}a")
             if len(arbre.fils) > 2 and arbre.fils[2] is not None:
                 self.gennode(arbre.fils[2])
-            # print(f"jump l{l}b")
-            # print(f".l{l}a")
-            self.gennode(arbre.fils[1])
+            # self.gennode(arbre.fils[1]) ## DANIA 
             config.CODE_ASM += f".l{l}b\n"
             # print(f".l{l}b")
-
+            
         elif(arbre.type == "node_loop"): 
             temp = config.ll
             config.NB_LB += 1
@@ -120,7 +122,25 @@ class AnalyseurSemantique:
         elif arbre.type == "node_seq":
             for fils in arbre.fils:
                 self.gennode(fils)
-            
+
+        elif(arbre.type == "node_fonct"): 
+            # print(f".{arbre.chaine}")
+            config.CODE_ASM += f".{arbre.chaine}\n"
+            # print(f"resn {arbre.nbArg}" ) # il faut compléter ici car on dois reserver le nombre de case pour les arguments
+            config.CODE_ASM += f"resn {arbre.nbArg}\n"
+            self.gennode(arbre.fils[-1]) # on genere le code du dernier enfant uniquement
+            # print("push 0")
+            config.CODE_ASM += "push 0\n"
+            # print("ret")
+            config.CODE_ASM += "ret\n"
+        
+        elif(arbre.type == "node_appel"): 
+            # print(f"prep {arbre.fils[0].chaine}") # on recupere le nom 
+            config.CODE_ASM += f"prep {arbre.fils[0].chaine}\n"
+            for arg in arbre.fils[1:]: # on fait un gennode de tous les enfants excepté le 1er
+                self.gennode(arg)
+            # print(f"call {len(arbre.fils) - 1}")   # nombre d'arguments
+            config.CODE_ASM += f"call {len(arbre.fils) - 1}\n"
     def begin(self):
         config.TS.append({})
     
@@ -164,8 +184,24 @@ class AnalyseurSemantique:
             arbre.index = sym["index"]
 
         
-     
+        elif(arbre.type == "node_fonct"): 
+            N = self.declare(arbre.chaine)
+            config.NB_ARG = 0
+            self.begin()
+            for fils in arbre.fils:
+                self.semNode(fils)
+                if fils.type == "node_decl":
+                    config.NB_ARG += 1
+            self.end()
+            arbre.nbArg = config.NB_ARG - (len(arbre.fils) - 1)
 
+        elif arbre.type == "node_appel" : 
+            for fils in arbre.fils:
+                self.semNode(fils) 
+            # Vérification de la cible de l'appel
+            #cible = arbre.fils[0]
+            #print(cible)
+            
         elif (arbre.type == "node_assign"):
             if (arbre.fils[0].type != "node_ref"):
                 raise Exception("La partie gauche d'une affectation doit etre une variable")
@@ -174,3 +210,10 @@ class AnalyseurSemantique:
         else:
             for fils in arbre.fils:
                 self.semNode(fils)
+
+    def verifier_main(self):
+        fonctions = [key for key, info in config.TS[0].items() if info.get("type") == "node_fonct"]
+        if "main" not in fonctions:
+            raise Exception("Erreur: fonction 'main' obligatoire absente")
+        if "start" in fonctions:
+            raise Exception("Erreur: fonction nommée 'start' interdite")

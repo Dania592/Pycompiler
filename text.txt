@@ -1,7 +1,21 @@
-{
+int affiche( ){
     int x;
     x = 2;  
     debug x;
     x = x + 1;
     debug x;  
+    
+    if(x == 3){
+        debug x; 
+        x = x - 1;
+        debug x;
+    }
+    else{
+        x = 10; 
+        debug x; 
+    }
+}
+
+void main (){
+    affiche(); 
 }
