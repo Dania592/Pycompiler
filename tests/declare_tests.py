@@ -6,7 +6,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from CompilateurC import compiler
 
-class BasicTests(unittest.TestCase):
+class DeclareTests(unittest.TestCase):
     def test_constante_pos_v(self):
         code = """
         void main(){

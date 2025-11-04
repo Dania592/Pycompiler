@@ -147,10 +147,10 @@ class AnalyseurSemantique:
         return config.TS[-1]
     
     def declare(self, name: str) -> dict :
-        if(not config.TS and name in config.TS[0]): ## erreur quand TS vide 
+        if(config.TS and name in config.TS): ## erreur quand TS vide 
             raise Exception(f"La varibale {name} existe deja dans le block")
         sym = {name : {"index" : 0, "name" : name}}
-        config.TS[0].update(sym)
+        config.TS.append(sym)
         return sym 
     
     
