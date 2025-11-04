@@ -87,13 +87,12 @@ class AnalyseurSemantique:
             config.CODE_ASM += f"jumpf l{l}a\n"
             # print(f"jumpf l{l}a")
             self.gennode(arbre.fils[1]) ## EMELIE 
-            config.CODE_ASM += f"jumpf l{l}b\n"  
+            config.CODE_ASM += f"jump l{l}b\n"  
             # print(f"jump l{l}b")
             config.CODE_ASM += f".l{l}a\n"
             # print(f".l{l}a")
             if len(arbre.fils) > 2 and arbre.fils[2] is not None:
                 self.gennode(arbre.fils[2])
-            # self.gennode(arbre.fils[1]) ## DANIA 
             config.CODE_ASM += f".l{l}b\n"
             # print(f".l{l}b")
             
