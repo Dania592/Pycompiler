@@ -1,5 +1,7 @@
 from Object import Token
 
+CODE_ASM = ""
+
 T = Token("test",0,"")
 Last = Token("",0,"")
 

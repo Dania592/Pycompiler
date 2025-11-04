@@ -1,15 +1,7 @@
 {
     int x;
     x = 2;  
-    debug x; 
-    
-    if(x > 2){
-        x = x + 1;
-        debug x;
-    }
-    else{
-        x = 10; 
-        debug x; 
-    }
-    
+    debug x;
+    x = x + 1;
+    debug x;  
 }

@@ -4,9 +4,9 @@ import config
 
 ## actuellement on gére juste les opérateur unaire 
 class AnalyseurSyntaxique :
-    def __init__(self, path : str):
+    def __init__(self, path = "text.txt", test = False, content = ""):
         global T
-        self.analyseur = AnalyserLexical(path)
+        self.analyseur = AnalyserLexical(path, test, content)
     
     def E(self, prio: int)->Node:
         node=self.P()
@@ -53,7 +53,7 @@ class AnalyseurSyntaxique :
             node = Node("node_const", config.Last.valeur)
             return node
         elif (self.analyseur.check("tok_par_open")):
-            r = self.E()
+            r = self.E(0)
             self.analyseur.accept("tok_par_close")
             return r
         elif(self.analyseur.check("tok_ident")): 

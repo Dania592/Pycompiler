@@ -6,16 +6,19 @@ import config
 class AnalyserLexical : 
 
     # constructeur de la classe qui recupère le chemin vers le texte source
-    def __init__(self, path : str): # verifie si ce chemin existe
-        if not os.path.exists(path):
-            raise FileNotFoundError(f"Le fichier à l'emplacement {path} n'existe pas !")
+    def __init__(self, path = "text.txt", test = False, content = ""): # verifie si ce chemin existe
+        if test :
+            self.text_content = content 
+        else :
+            if not os.path.exists(path):
+                raise FileNotFoundError(f"Le fichier à l'emplacement {path} n'existe pas !")
+            
+            self.file = open(path) # ouverture du fichier source
+            self.text_content = self.file.read() # lecture du fichier source
         
-        self.file = open(path) # ouverture du fichier source
-        self.text_content = self.file.read() # lecture du fichier source
         self.length = len(self.text_content)
         self.pos = 0
         self.next()
-        
         
     
     # Méthodes qui permet de passer au carractere suivant
