@@ -10,8 +10,7 @@ class DeclareTests(unittest.TestCase):
     def test_constante_pos_v(self):
         code = """
         void main(){
-            24;
-            +12;
+            int x;
         }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')

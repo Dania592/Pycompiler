@@ -59,3 +59,4 @@ op_assembleur={
 }
 
 TS = []
+var_stack = []

@@ -73,10 +73,6 @@ class AnalyseurSemantique:
             # print("get ", arbre.index)
         elif (arbre.type == "node_drop"):
             self.gennode(arbre.fils[0])
-            # erreur psk ici  on droit le nombre de variable et non la vrai valeur
-            # arbre.afficher_arbre_joli() 
-            # t = self.find(arbre.fils[0].chaine)
-            # print(t)
             config.CODE_ASM += "drop 1\n"
             # print("drop 1")
             
@@ -93,6 +89,7 @@ class AnalyseurSemantique:
             # print(f".l{l}a")
             if len(arbre.fils) > 2 and arbre.fils[2] is not None:
                 self.gennode(arbre.fils[2])
+
             config.CODE_ASM += f".l{l}b\n"
             # print(f".l{l}b")
             
@@ -140,18 +137,29 @@ class AnalyseurSemantique:
                 self.gennode(arg)
             # print(f"call {len(arbre.fils) - 1}")   # nombre d'arguments
             config.CODE_ASM += f"call {len(arbre.fils) - 1}\n"
+            
     def begin(self):
         config.TS.append({})
-    
+        if not hasattr(config, 'var_stack'):
+            config.var_stack = []
+        config.var_stack.append(config.NB_VAR)
+        
     def end(self):
-        return config.TS[-1]
+        table = config.TS.pop()
+        nb_vars_liberated = len(table)
+        config.NB_VAR = config.var_stack.pop()
+        return nb_vars_liberated
     
     def declare(self, name: str) -> dict :
-        if(config.TS and name in config.TS): ## erreur quand TS vide 
-            raise Exception(f"La varibale {name} existe deja dans le block")
-        sym = {name : {"index" : 0, "name" : name}}
-        config.TS.append(sym)
-        return sym 
+        if not config.TS:
+            raise Exception("Pas de scope actif pour déclarer la variable")
+        if name in config.TS[-1]:
+            raise Exception(f"La variable {name} existe deja dans le block courant")
+        
+        sym = {name: {"index": 0, "name": name}}
+        config.TS[-1].update(sym)
+        config.NB_VAR += 1
+        return sym
     
     
     
@@ -166,11 +174,11 @@ class AnalyseurSemantique:
             self.begin()
             for fils in arbre.fils:
                 self.semNode(fils)
-            self.end()
+            nb_vars = self.end()
+            arbre.nbArg = nb_vars
         elif (arbre.type == "node_decl"):
-            s = self.declare(arbre.chaine)
-           
-            config.TS[0][arbre.chaine]["index"] = config.NB_VAR
+            s = self.declare(arbre.chaine) 
+            config.TS[-1][arbre.chaine]["index"] = config.NB_VAR
             # print(config.TS)
             
             config.NB_VAR += 1
