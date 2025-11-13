@@ -52,7 +52,7 @@ class Node :
 
         # Préfixe graphique selon si c'est le dernier enfant ou pas
         branch = "└── " if last else "├── "
-        print(indent + branch + info)
+        print(str(indent) + str(branch) + str(info))
 
         # Préparer l'indentation pour les enfants
         indent += "    " if last else "│   "
