@@ -5,6 +5,8 @@ import config
 
 def compiler(content : str):
     config.NB_LB = 0
+    config.NB_VAR = 0
+    config.NB_ARG = 0
     analyseur_semantique = AnalyseurSemantique(test = True, content = content)
     AnalyseurSemantique.begin(analyseur_semantique)
     while config.T.type != "tok_eof":

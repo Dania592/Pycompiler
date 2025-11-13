@@ -107,6 +107,7 @@ class AnalyseurSyntaxique :
             E1 = self.E(0) 
             node = Node("node_send")
             node.ajouter_enfant(E1)
+            return node
         elif (self.analyseur.check("tok_brace_open")):
             node = Node("node_block")
             while ( not self.analyseur.check("tok_brace_close")):
@@ -167,6 +168,14 @@ class AnalyseurSyntaxique :
             N3.ajouter_enfant(N5)
             N4.ajouter_enfant(E1)
             return N1
+        elif (self.analyseur.check("tok_break")):
+            node = Node("node_break")
+            self.analyseur.accept("tok_semicolon")
+            return node
+        elif (self.analyseur.check("tok_continue")):
+            node = Node("node_continue")
+            self.analyseur.accept("tok_semicolon")
+            return node
         elif(self.analyseur.check("tok_for")): 
             self.analyseur.accept("tok_par_open")
             E1 = self.E(0)

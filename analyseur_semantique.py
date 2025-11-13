@@ -143,7 +143,7 @@ class AnalyseurSemantique:
             config.CODE_ASM += f"jump l{config.ll}b\n"
         elif(arbre.type == "node_continue"):
             # print(f"jump l{config.ll}c")
-            config.CODE_ASM += f"jump l{config.ll}c\n"
+            config.CODE_ASM += f"jump l{config.ll}a\n"
         elif(arbre.type == "node_target"): 
             # print(f".l{config.ll}c")
             config.CODE_ASM += f".l{config.ll}c\n"
@@ -171,7 +171,7 @@ class AnalyseurSemantique:
             config.CODE_ASM += f"call {len(arbre.fils) - 1}\n"
 
         elif(arbre.type == "node_ind"): 
-            self.gennode(fils)
+            self.gennode(arbre.fils[0])
             config.CODE_ASM += "read \n"
         
         elif arbre.type == "node_adr":
