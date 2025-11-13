@@ -47,6 +47,11 @@ class AnalyseurSemantique:
             self.gennode(arbre.fils[0])
             config.CODE_ASM += "dbg\n"
             # print("dbg")
+        elif(arbre.type == "node_send"): 
+            self.gennode(arbre.fils[0])
+            config.CODE_ASM += "send\n"
+        elif(arbre.type == "node_recv"): 
+            config.CODE_ASM += "recv\n"
         elif (arbre.type == "node_ret"):
             self.gennode(arbre.fils[0])
             config.CODE_ASM += "ret\n"
@@ -63,11 +68,19 @@ class AnalyseurSemantique:
                 config.CODE_ASM += suffixe + "\n"
                 # print(suffixe)
         elif (arbre.type == "node_assign"):
-            self.gennode(arbre.fils[1])
-            config.CODE_ASM += "dup\n"
-            # print("dup")
-            # print("set ", arbre.fils[0].index)
-            config.CODE_ASM += "set " + str(arbre.fils[0].index) + "\n"
+    
+            if arbre.fils[0].type == "node_ind":
+                self.gennode(arbre.fils[1]) 
+                config.CODE_ASM += "dup\n"           
+                self.gennode(arbre.fils[0].fils[0])   
+                config.CODE_ASM += "write\n" 
+            else: 
+                self.gennode(arbre.fils[1])
+                config.CODE_ASM += "dup\n"
+                # print("dup")
+                # print("set ", arbre.fils[0].index)
+                config.CODE_ASM += "set " + str(arbre.fils[0].index) + "\n"
+        
         elif (arbre.type == "node_ref"):
             config.CODE_ASM += "get " +  str(arbre.index) + "\n"
             # print("get ", arbre.index)
@@ -156,6 +169,17 @@ class AnalyseurSemantique:
                 self.gennode(arg)
             # print(f"call {len(arbre.fils) - 1}")   # nombre d'arguments
             config.CODE_ASM += f"call {len(arbre.fils) - 1}\n"
+
+        elif(arbre.type == "node_ind"): 
+            self.gennode(fils)
+            config.CODE_ASM += "read \n"
+        
+        elif arbre.type == "node_adr":
+            var = arbre.fils[0]
+            config.CODE_ASM += f"push {var.index}\n"
+
+        
+        
             
     def begin(self):
         config.TS.append({})

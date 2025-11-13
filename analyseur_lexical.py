@@ -111,4 +111,24 @@ class AnalyserLexical :
         global T
         if (not self.check(type)):
             raise Exception(f"Le type attendu <{type}> ne correspond par au type du token <{config.T.type}>")
+    
+    #fonction qui consulte le token sans avancer
+    def peek(self):
+        # Sauvegarder l'état actuel
+        pos_backup = self.pos
+        T_backup = config.T
+        Last_backup = config.Last
+
+        # Lire le token suivant sans avancer la position de façon définitive
+        self.next()
+        next_token = config.T
+
+        # Restaurer l'état initial
+        self.pos = pos_backup
+        config.T = T_backup
+        config.Last = Last_backup
+
+        # Retourner le token suivant (saisi) mais sans modifier l'état actuel
+        return next_token
+
 
