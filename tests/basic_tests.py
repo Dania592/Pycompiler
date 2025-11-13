@@ -15,7 +15,7 @@ class BasicTests(unittest.TestCase):
         }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 0
+        result = """resn 1
 .main
 resn 0
 push 24
@@ -24,7 +24,7 @@ push 12
 drop 1
 push 0
 ret
-drop 0
+drop 1
 .start
 prep main
 call 0
@@ -39,7 +39,7 @@ halt
         }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 0
+        result = """resn 1
 .main
 resn 0
 push 0
@@ -48,7 +48,7 @@ sub
 drop 1
 push 0
 ret
-drop 0
+drop 1
 .start
 prep main
 call 0
@@ -64,7 +64,7 @@ halt
         }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 0
+        result = """resn 1
 .main
 resn 0
 push 0
@@ -77,7 +77,7 @@ sub
 drop 1
 push 0
 ret
-drop 0
+drop 1
 .start
 prep main
 call 0
@@ -92,7 +92,7 @@ halt
         }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 0
+        result = """resn 1
 .main
 resn 0
 push 2
@@ -101,7 +101,7 @@ add
 drop 1
 push 0
 ret
-drop 0
+drop 1
 .start
 prep main
 call 0
@@ -116,7 +116,7 @@ halt
         }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 0
+        result = """resn 1
 .main
 resn 0
 push 2
@@ -125,7 +125,7 @@ sub
 drop 1
 push 0
 ret
-drop 0
+drop 1
 .start
 prep main
 call 0
@@ -140,7 +140,7 @@ halt
         }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 0
+        result = """resn 1
 .main
 resn 0
 push 10
@@ -149,7 +149,7 @@ mul
 drop 1
 push 0
 ret
-drop 0
+drop 1
 .start
 prep main
 call 0
@@ -164,7 +164,7 @@ halt
         }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 0
+        result = """resn 1
 .main
 resn 0
 push 0
@@ -177,7 +177,7 @@ add
 drop 1
 push 0
 ret
-drop 0
+drop 1
 .start
 prep main
 call 0
@@ -192,7 +192,7 @@ halt
         }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 0
+        result = """resn 1
 .main
 resn 0
 push 0
@@ -207,7 +207,7 @@ mul
 drop 1
 push 0
 ret
-drop 0
+drop 1
 .start
 prep main
 call 0

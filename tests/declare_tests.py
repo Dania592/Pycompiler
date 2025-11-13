@@ -65,7 +65,7 @@ halt
 """
         self.assertEqual(asm, result)
 
-    def declare_add(self):
+    def test_declare_add(self):
         code = """
         void main(){
             int x;
@@ -99,7 +99,7 @@ halt
 """
         self.assertEqual(asm, result)
         
-    def declare_add2(self):
+    def test_declare_add2(self):
         code = """
         void main(){
             int x;
@@ -112,7 +112,7 @@ halt
         result = """resn 1
 .main
 resn 0
-push 3
+push 1
 dup
 set 2
 drop 1
@@ -135,7 +135,7 @@ halt
         self.assertEqual(asm, result)
 
            
-    def declare_add_var(self):
+    def test_declare_add_var(self):
         code = """
         void main(){
             int x;
@@ -181,7 +181,7 @@ halt
 """
         self.assertEqual(asm, result)
 
-    def declare_var_bloc(self):
+    def test_declare_var_bloc(self):
         code = """
         void main(){
             int x;
@@ -234,7 +234,7 @@ halt
         self.assertEqual(asm, result)
 
     
-    def declare_var_add(self):
+    def test_declare_var_add(self):
         code = """
         void main(){
             int x;
