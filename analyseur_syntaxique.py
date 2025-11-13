@@ -240,12 +240,13 @@ class AnalyseurSyntaxique :
                 node.ajouter_enfant(N)
                 if self.analyseur.check("tok_comma"):
                     self.analyseur.accept("tok_comma")
+                    pass
                 else:
                     break
             self.analyseur.accept("tok_par_close")
 
         I1 = self.I()
-        node.nbArg = config.NB_ARG
+        node.nbArg = config.NB_ARG - len(node.fils) - 1
         config.NB_ARG = 0
         node.ajouter_enfant(I1)
         return node

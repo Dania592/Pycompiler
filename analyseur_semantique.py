@@ -243,7 +243,7 @@ class AnalyseurSemantique:
                 if fils.type == "node_decl":
                     config.NB_ARG += 1
             self.end()
-            arbre.nbArg = config.NB_ARG - (len(arbre.fils) - 1)
+            arbre.nbArg = len(arbre.fils) - 1
 
         elif arbre.type == "node_appel" : 
             for fils in arbre.fils:
