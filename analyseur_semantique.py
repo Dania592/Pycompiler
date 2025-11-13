@@ -152,7 +152,7 @@ class AnalyseurSemantique:
             config.CODE_ASM += f"call {len(arbre.fils) - 1}\n"
 
         elif(arbre.type == "node_ind"): 
-            self.gennode(fils)
+            self.gennode(arbre.fils[0])
             config.CODE_ASM += "read \n"
         
         elif arbre.type == "node_adr":

@@ -68,10 +68,8 @@ class AnalyseurSyntaxique :
             T.ajouter_enfant(N)
             if(not self.analyseur.check("tok_par_close")): 
                 while True: 
-                    self.analyseur.accept("tok_int")
-                    self.analyseur.accept("tok_ident")
-                    N1 =  Node("node_decl", chaine = config.Last.chaine)
-                    T.ajouter_enfant(N1)
+                    expr = self.E(0)  # Expression comme argument
+                    T.ajouter_enfant(expr)
                     if not self.analyseur.check("tok_comma"): 
                         break
                 self.analyseur.accept("tok_par_close")
@@ -107,6 +105,7 @@ class AnalyseurSyntaxique :
             E1 = self.E(0) 
             node = Node("node_send")
             node.ajouter_enfant(E1)
+            return node
         elif (self.analyseur.check("tok_brace_open")):
             node = Node("node_block")
             while ( not self.analyseur.check("tok_brace_close")):
@@ -209,19 +208,6 @@ class AnalyseurSyntaxique :
             node = Node("node_decl", chaine = config.Last.chaine, pointeur= nb_etoiles)
             self.analyseur.accept("tok_semicolon")
             return node
-
-# a revoir
-        #elif self.analyseur.check("tok_mult") or self.analyseur.check("tok_ident"):
-            #if self.analyseur.peek().type == "tok_assign":
-                #left = self.P()  # on  construis un 'node_ind' ou 'node_ref'
-               # self.analyseur.accept("tok_assign")
-                #right = self.E(0)
-                #self.analyseur.accept("tok_semicolon")
-                #node = Node("node_assign")
-                #node.ajouter_enfant(left)
-                #node.ajouter_enfant(right)
-                #return node
-
 
         else :
             N = self.E(0)
