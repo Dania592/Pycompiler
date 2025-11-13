@@ -247,7 +247,7 @@ class AnalyseurSyntaxique :
                 config.NB_ARG += 1
                 node.ajouter_enfant(N)
                 if self.analyseur.check("tok_comma"):
-                    self.analyseur.accept("tok_comma")
+                    #self.analyseur.accept("tok_comma")
                     pass
                 else:
                     break
