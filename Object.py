@@ -16,7 +16,7 @@ class Token :
 # la classe Node represente un bloc ou une opération dans l'arbre syntaxiique
 
 class Node : 
-    def __init__(self, type : str, valeur:int = None, chaine:str = None, nbArg : int = None):
+    def __init__(self, type : str, valeur:int = None, chaine:str = None, nbArg : int = None, pointeur : int = None):
         ## déclaration des attributs
         self.type = type # type du noeud (opérateur, constante, ...)
         if valeur != None :
@@ -25,6 +25,8 @@ class Node :
             self.chaine = chaine 
         elif nbArg != None: 
             self.nbArg= nbArg
+        elif pointeur != None:
+            self.pointeur = pointeur
         self.fils = [] #liste des enfants de ce noeud pour les branchements de l'arbre
         self.index = None 
         
