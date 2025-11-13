@@ -112,7 +112,7 @@ halt
         result = """resn 1
 .main
 resn 0
-push 3
+push 1
 dup
 set 2
 drop 1

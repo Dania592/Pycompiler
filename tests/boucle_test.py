@@ -28,7 +28,7 @@ drop 1
 get 2
 push 5
 cmple
-jumpf l2a
+jumpf l1b
 get 2
 dbg
 .l1c
@@ -38,10 +38,6 @@ add
 dup
 set 2
 drop 1
-jump l2b
-.l2a
-jump l1b
-.l2b
 jump l1a
 .l1b
 push 0
@@ -75,7 +71,7 @@ drop 1
 get 2
 push 5
 cmpgt
-jumpf l2a
+jumpf l1b
 get 2
 dbg
 .l1c
@@ -85,10 +81,6 @@ sub
 dup
 set 2
 drop 1
-jump l2b
-.l2a
-jump l1b
-.l2b
 jump l1a
 .l1b
 push 0
@@ -128,16 +120,16 @@ drop 1
 get 2
 push 5
 cmpgt
-jumpf l2a
+jumpf l1b
 push 2
 dup
 set 4
 drop 1
-.l3a
+.l2a
 get 4
 push 24
 cmplt
-jumpf l4a
+jumpf l2b
 get 2
 get 4
 mul
@@ -146,19 +138,15 @@ set 6
 drop 1
 get 6
 dbg
-.l3c
+.l2c
 get 4
 push 2
 mul
 dup
 set 4
 drop 1
-jump l4b
-.l4a
-jump l3b
-.l4b
-jump l3a
-.l3b
+jump l2a
+.l2b
 get 2
 dbg
 .l1c
@@ -168,10 +156,6 @@ sub
 dup
 set 2
 drop 1
-jump l2b
-.l2a
-jump l1b
-.l2b
 jump l1a
 .l1b
 push 0
@@ -849,7 +833,7 @@ push 18
 dup
 set 2
 drop 1
-jump l1c
+jump l1a
 jump l2b
 .l2a
 get 2

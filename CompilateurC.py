@@ -4,9 +4,13 @@ from Object import Token
 import config 
 
 def compiler(content : str):
-    config.NB_LB = 0
-    config.NB_VAR = 0
-    config.NB_ARG = 0
+    config.NB_VAR = 0 
+    config.NB_LB = 0 # variable globale qui compte le nombre de label
+    config.ll = 0 # variable globale au fichier analyseur semantique pour  les labels 
+    config.NB_ARG = 0 # nombre d'argument d" une fonction 
+
+    config.TS = []
+    config.var_stack = []
     analyseur_semantique = AnalyseurSemantique(test = True, content = content)
     AnalyseurSemantique.begin(analyseur_semantique)
     while config.T.type != "tok_eof":
