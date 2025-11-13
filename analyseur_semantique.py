@@ -10,6 +10,7 @@ class AnalyseurSemantique:
     # Méthode appelé pour générer le code machine
     def gencode(self):
         arbre = self.optim()
+        # print(arbre.afficher_arbre_joli())
         # print("resn ", config.NB_VAR)
         config.CODE_ASM += "resn "+ str(config.NB_VAR) + "\n"
         self.gennode(arbre)
@@ -25,7 +26,6 @@ class AnalyseurSemantique:
         arbre = self.analyseur_syntaxique.F()
         config.NB_VAR = 0
         self.semNode(arbre)
-        
         return arbre
         
     # Méthode qui parcours récursivement l'arbre de noeud et génère le code machine associé a chaque noeud
@@ -93,19 +93,38 @@ class AnalyseurSemantique:
             config.CODE_ASM += f".l{l}b\n"
             # print(f".l{l}b")
             
+            
         elif(arbre.type == "node_loop"): 
             temp = config.ll
             config.NB_LB += 1
             config.ll = config.NB_LB
-            # print(f".l{config.ll}a")
-            config.CODE_ASM += f".l{config.ll}a\n"
-            for fils in arbre.fils:
-                self.gennode(fils)
-            # print(f"jump l{config.ll}a")
-            config.CODE_ASM += f"jump l{config.ll}a\n"
-            # print(f".l{config.ll}b")
-            config.CODE_ASM += f".l{config.ll}b\n"
+            
+            if len(arbre.fils) > 0 and arbre.fils[0].type == "node_cond":
+                # C'est une boucle while
+                config.CODE_ASM += f".l{config.ll}a\n"
+                
+                # Générer la condition
+                self.gennode(arbre.fils[0].fils[0])  # La condition
+                config.CODE_ASM += f"jumpf l{config.ll}b\n"  # Si faux, sortir
+                
+                # Générer le corps de la boucle
+                if len(arbre.fils[0].fils) > 1:
+                    self.gennode(arbre.fils[0].fils[1])  # Le corps
+                
+                config.CODE_ASM += f"jump l{config.ll}a\n"  # Retour au début
+                config.CODE_ASM += f".l{config.ll}b\n"  # Sortie
+            else:
+                # Boucle for ou autre type de boucle
+                config.CODE_ASM += f".l{config.ll}a\n"
+                
+                for i in range(len(arbre.fils)):
+                    self.gennode(arbre.fils[i])
+                    
+                config.CODE_ASM += f"jump l{config.ll}a\n"
+                config.CODE_ASM += f".l{config.ll}b\n"
+                
             config.ll = temp
+            
         elif(arbre.type == "node_break"): 
             # print(f"jump l{config.ll}b")
             config.CODE_ASM += f"jump l{config.ll}b\n"
