@@ -1,8 +1,6 @@
 from analyseur_lexical import AnalyserLexical
 from Object import Token, Node
 import config
-
-## actuellement on gére juste les opérateur unaire 
 class AnalyseurSyntaxique :
     def __init__(self, path = "text.txt", test = False, content = ""):
         global T
@@ -19,11 +17,8 @@ class AnalyseurSyntaxique :
             N.ajouter_enfant(M)
             node=N
         return node 
-
     
     def P(self):
-        ## gestion des expressions simple avec un prefixe et un nom
-        ## expression : préfixe ==> délégation du reste à la fonction S
         if (self.analyseur.check("tok_not")):
             node = self.P()
             arbre = Node("node_not")
@@ -38,17 +33,18 @@ class AnalyseurSyntaxique :
         
         elif (self.analyseur.check("tok_plus")):
             return self.P()
+        
         elif(self.analyseur.check("tok_mult")):
             node = self.P()
             arbre = Node("node_ind")
             arbre.ajouter_enfant(node)
             return arbre
+        
         elif(self.analyseur.check("tok_amp")):
             node = self.P()
             arbre = Node("node_adr")
             arbre.ajouter_enfant(node)
             return arbre
-        
         else : 
             return self.S()
         
@@ -63,12 +59,13 @@ class AnalyseurSyntaxique :
             N1.ajouter_enfant(N)
             N1.ajouter_enfant(E)
             return node
+        
         if(self.analyseur.check("tok_par_open")): 
             T = Node("node_appel")
             T.ajouter_enfant(N)
             if(not self.analyseur.check("tok_par_close")): 
                 while True: 
-                    expr = self.E(0)  # Expression comme argument
+                    expr = self.E(0) 
                     T.ajouter_enfant(expr)
                     if not self.analyseur.check("tok_comma"): 
                         break
@@ -77,9 +74,6 @@ class AnalyseurSyntaxique :
         return N
     
     def A(self):
-        global Last
-        global T
-        ## gestion des chiffres sinon renvoie vers E avec les parenthèse entre une expression 
         if (self.analyseur.check("tok_const")):
             node = Node("node_const", config.Last.valeur)
             return node
@@ -101,23 +95,19 @@ class AnalyseurSyntaxique :
             N = Node("node_debug")
             N.ajouter_enfant(node)
             return N 
+        
         elif(self.analyseur.check("tok_send")):
             E1 = self.E(0) 
             node = Node("node_send")
             node.ajouter_enfant(E1)
             return node
+        
         elif (self.analyseur.check("tok_brace_open")):
             node = Node("node_block")
             while ( not self.analyseur.check("tok_brace_close")):
                 node.ajouter_enfant(self.I())
             return node 
-        # a supprimer 
-        # on garde la version qui boucle sur les étoiles
-        #elif(self.analyseur.check("tok_int")):
-           # self.analyseur.accept("tok_ident")
-           # self.analyseur.accept("tok_semicolon")
-            #node = Node("node_decl", chaine = config.T.chaine)
-            #return node
+        
         elif(self.analyseur.check("tok_if")): 
             self.analyseur.accept("tok_par_open")
             E1 = self.E(0)
@@ -126,27 +116,23 @@ class AnalyseurSyntaxique :
             N1 = Node("node_cond")
             N1.ajouter_enfant(E1)
             N1.ajouter_enfant(I1)
-            
             if(self.analyseur.check("tok_else")):
                 I2 = self.I()
                 N1.ajouter_enfant(I2)
-
-            
-            
-            # N1.afficher_arbre_joli()
             return N1
+        
         elif(self.analyseur.check("tok_while")):
             self.analyseur.accept("tok_par_open")
             E1 = self.E(0)
             self.analyseur.accept("tok_par_close")
             I1 = self.I()
-
             N1 = Node("node_loop")
             N2 = Node("node_cond")
             N1.ajouter_enfant(N2)
             N2.ajouter_enfant(E1)
             N2.ajouter_enfant(I1)
             return N1
+        
         elif(self.analyseur.check("tok_do")):
             I1 = self.I()
             self.analyseur.accept("tok_while")
@@ -166,14 +152,17 @@ class AnalyseurSyntaxique :
             N3.ajouter_enfant(N5)
             N4.ajouter_enfant(E1)
             return N1
+        
         elif (self.analyseur.check("tok_break")):
             node = Node("node_break")
             self.analyseur.accept("tok_semicolon")
             return node
+        
         elif (self.analyseur.check("tok_continue")):
             node = Node("node_continue")
             self.analyseur.accept("tok_semicolon")
             return node
+        
         elif(self.analyseur.check("tok_for")): 
             self.analyseur.accept("tok_par_open")
             E1 = self.E(0)
@@ -203,11 +192,13 @@ class AnalyseurSyntaxique :
             N6.ajouter_enfant(N8)
             N8.ajouter_enfant(E3)
             return N1
+        
         elif(self.analyseur.check("tok_return")): 
             N = Node("node_ret")
             N1 = self.E(0)
             N.ajouter_enfant(N1)
             return N
+        
         elif(self.analyseur.check("tok_int")): 
             nb_etoiles = 0
             while(self.analyseur.check("tok_mult")): 
@@ -224,13 +215,12 @@ class AnalyseurSyntaxique :
             node.ajouter_enfant(N)
             return node
         
-    # definition de fonction 
+        
     def F(self) ->Node : 
         if self.analyseur.check("tok_int"): 
             # on ne fait rien , le token est consommé 
             pass # on utilise ce mot pour permetrre de passer car python ne permet pas de bloc condition vide 
         elif self.analyseur.check("tok_void"): 
-             # on ne fait rien , le token est consommé 
              pass
             
         else:
@@ -247,13 +237,13 @@ class AnalyseurSyntaxique :
                 config.NB_ARG += 1
                 node.ajouter_enfant(N)
                 if self.analyseur.check("tok_comma"):
-                    self.analyseur.accept("tok_comma")
+                    pass
                 else:
                     break
             self.analyseur.accept("tok_par_close")
 
         I1 = self.I()
-        node.nbArg = config.NB_ARG
+        node.nbArg = config.NB_ARG - len(node.fils) - 1
         config.NB_ARG = 0
         node.ajouter_enfant(I1)
         return node
