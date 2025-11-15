@@ -199,7 +199,7 @@ class AnalyseurSemantique:
         if name in config.TS[-1]:
             raise Exception(f"La variable {name} existe deja dans le block courant")
         
-        sym = {name: {"index": 0, "name": name}}
+        sym = {name: {"index": config.NB_VAR, "name": name}}
         config.TS[-1].update(sym)
         config.NB_VAR += 1
         return sym
@@ -221,7 +221,7 @@ class AnalyseurSemantique:
             arbre.nbArg = nb_vars
         elif (arbre.type == "node_decl"):
             s = self.declare(arbre.chaine) 
-            config.TS[-1][arbre.chaine]["index"] = config.NB_VAR
+            #config.TS[-1][arbre.chaine]["index"] = config.NB_VAR
             # print(config.TS)
             
             config.NB_VAR += 1
@@ -243,7 +243,7 @@ class AnalyseurSemantique:
                 if fils.type == "node_decl":
                     config.NB_ARG += 1
             self.end()
-            arbre.nbArg = len(arbre.fils) - 1
+            arbre.nbArg =  config.NB_ARG
 
         elif arbre.type == "node_appel" : 
             for fils in arbre.fils:
