@@ -236,8 +236,12 @@ class AnalyseurSyntaxique :
         if not self.analyseur.check("tok_par_close"):
             while True:
                 self.analyseur.accept("tok_int")
+                #Si ont a un tok mult on le consomme 
+                nb_etoiles = 0
+                while self.analyseur.check("tok_mult"):
+                    nb_etoiles += 1
                 self.analyseur.accept("tok_ident")
-                N = Node("node_decl", chaine = config.Last.chaine)
+                N = Node("node_decl", chaine = config.Last.chaine, pointeur= nb_etoiles)
                 node.ajouter_enfant(N)
                 if self.analyseur.check("tok_comma"):
                     pass
