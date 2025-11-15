@@ -2,15 +2,14 @@ from Object import Token
 
 CODE_ASM = ""
 
-T = Token("test",0,"")
+T = Token("",0,"")
 Last = Token("",0,"")
 
-NB_VAR = 0 
+NB_VAR = 0 # variable globale qui compte le nombre de variable 
 NB_LB = 0 # variable globale qui compte le nombre de label
 ll = 0 # variable globale au fichier analyseur semantique pour  les labels 
 NB_ARG = 0 # nombre d'argument d" une fonction 
 
-# Associe chaque token a sa priorité, son type de noeud dans l'arbre syntaxique et la priorité de l'élément qui doit le suivre dans l'expression
 operateurs={
     "tok_plus": {"priority": 5 , "parg":6 , "Ntype": "node_add"},
     "tok_minus":{"priority": 5 , "parg":6 , "Ntype":"node_sub" },
@@ -27,10 +26,8 @@ operateurs={
     "tok_le":{"priority": 4.5 , "parg":5 , "Ntype":"node_le"},
     "tok_ge":{"priority": 4.5 , "parg":5 , "Ntype":"node_ge"},
     "tok_assign":{"priority": 1 , "parg":1 , "Ntype":"node_assign"}
-
 }
 
-# Associe chaque noeud à sa conversion en pseudo code d'assemblage
 op_assembleur={
     "node_add":{"suffixe": "add", "prefixe": ""},
     "node_minus":{"suffixe": "sub", "prefixe": "push 0"},
@@ -41,7 +38,7 @@ op_assembleur={
     "node_mod":{"suffixe": "mod", "prefixe": ""},
     "node_and":{"suffixe": "and", "prefixe": ""},
     "node_or":{"suffixe": "or", "prefixe": ""},
-    "node_affect":{"suffixe": "", "prefixe": ""}, #TODO !!!!!!!!!!!
+    "node_affect":{"suffixe": "", "prefixe": ""}, 
     "node_eq":{"suffixe": "cmpeq", "prefixe": ""},
     "node_neq":{"suffixe": "cmpne", "prefixe": ""},
     "node_lt":{"suffixe": "cmplt", "prefixe": ""},
@@ -51,12 +48,64 @@ op_assembleur={
     "node_debug":{"suffixe": "", "prefixe": ""}, 
     "node_decl" :{"suffixe": "", "prefixe": ""},
     "node_block" :{"suffixe": "", "prefixe": ""},
-    #"node_ref" : {"suffixe": "", "prefixe": ""},
-    #"node_cond" : {"suffixe": "", "prefixe": ""},
-    #"node_loop" : {"suffixe": "", "prefixe": ""}, 
-    #"node_break" : {"suffixe": "", "prefixe": ""}
-    #"node_fonct" : {"suffixe": "", "prefixe": ""}
 }
+
+
+
+key_words = {
+    # mots-clés
+    "tok_int": "int",
+    "tok_void": "void",
+    "tok_return": "return",
+    "tok_if": "if",
+    "tok_else": "else",
+    "tok_for": "for",
+    "tok_do": "do",
+    "tok_while": "while",
+    "tok_break": "break",
+    "tok_continue": "continue",
+    # autres 
+    "tok_debug": "debug",
+    "tok_send": "send",
+    "tok_recv": "recv"
+}
+
+
+enum = {
+"tok_eof": "eof", 
+"tok_const": "const",
+"tok_ident": "ident",
+
+# opérateurs
+"tok_plus": "+",
+"tok_minus": "-",
+"tok_mult": "*",
+"tok_div": "/",
+"tok_mod": "%",
+"tok_and": "&&",
+"tok_or": "||",
+"tok_not": "!",
+"tok_eq": "==",
+"tok_neq": "!=",
+"tok_lt": "<",
+"tok_gt": ">",
+"tok_le": "<=",
+"tok_ge": ">=",
+"tok_assign": "=",
+
+# ponctuation
+"tok_par_open": "(",
+"tok_par_close": ")",
+"tok_brace_open": "{",
+"tok_brace_close": "}",
+"tok_bracket_open": "[",
+"tok_bracket_close": "]",
+"tok_semicolon": ";",
+"tok_comma": ",",
+"tok_amp": "&",
+}
+
+
 
 TS = []
 var_stack = []
