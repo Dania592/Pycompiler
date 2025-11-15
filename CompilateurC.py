@@ -13,12 +13,20 @@ def compiler(content : str):
     config.TS = []
     config.var_stack = []
     analyseur_semantique = AnalyseurSemantique(test = True, content = content)
+    
+    # MODIFIE : On commence le scope GLOBAL ici
     AnalyseurSemantique.begin(analyseur_semantique)
     
     while config.T.type != "tok_eof":
-        analyseur_semantique.gencode()
+        # MODIFIE : On appelle anaSem() puis gennode(), pas gencode()
+        arbre = analyseur_semantique.anaSem()
+        analyseur_semantique.gennode(arbre)
         
+    # MODIFIE : On ferme le scope GLOBAL
     AnalyseurSemantique.end(analyseur_semantique)
+    
+    # MODIFIE : Vérification de 'main' après avoir tout parsé
+    # analyseur_semantique.verifier_main() # Décommentez si vous voulez activer la vérification
     
     config.CODE_ASM += ".start\n"
     config.CODE_ASM += "prep main\n"
@@ -30,10 +38,22 @@ def compiler(content : str):
 
 def main(path : str):
     analyseur_semantique = AnalyseurSemantique(path)
+    
+    # MODIFIE : Logique de compilation déplacée comme dans la fonction 'compiler'
+    # MODIFIE : On commence le scope GLOBAL ici
     AnalyseurSemantique.begin(analyseur_semantique)
+    
     while config.T.type != "tok_eof":
-        analyseur_semantique.gencode()
+        # MODIFIE : On appelle anaSem() puis gennode(), pas gencode()
+        arbre = analyseur_semantique.anaSem()
+        analyseur_semantique.gennode(arbre)
+        
+    # MODIFIE : On ferme le scope GLOBAL
     AnalyseurSemantique.end(analyseur_semantique)
+
+    # MODIFIE : Vérification de 'main' après avoir tout parsé
+    # analyseur_semantique.verifier_main() # Décommentez si vous voulez activer la vérification
+
     config.CODE_ASM += ".start\n"
     config.CODE_ASM += "prep main\n"
     config.CODE_ASM += "call 0\n"

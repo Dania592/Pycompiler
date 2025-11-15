@@ -11,10 +11,7 @@ class AnalyseurSemantique:
         
     def gencode(self):
         arbre = self.optim()
-        config.CODE_ASM += "resn "+ str(config.NB_VAR) + "\n"
         self.gennode(arbre)
-
-        config.CODE_ASM += "drop "+ str(config.NB_VAR) + "\n"
 
     def optim(self):
         """ fait l'analyse sémantique de l'arbre syntaxite avec 0 comme priorité initiale """
@@ -23,7 +20,6 @@ class AnalyseurSemantique:
     
     def anaSem(self):
         arbre = self.analyseur_syntaxique.F()
-        config.NB_VAR = 0
         self.semNode(arbre)
         return arbre
 
@@ -146,8 +142,11 @@ class AnalyseurSemantique:
                 
         elif(arbre.type == "node_fonct"): 
             config.CODE_ASM += f".{arbre.chaine}\n"
-            config.CODE_ASM += f"resn {arbre.nbArg}\n"
+            if arbre.nbLocales > 0:
+                config.CODE_ASM += f"resn {arbre.nbLocales}\n"
+            
             self.gennode(arbre.fils[-1])
+            
             config.CODE_ASM += "push 0\n"
             config.CODE_ASM += "ret\n"
             
@@ -166,23 +165,39 @@ class AnalyseurSemantique:
             config.CODE_ASM += f"push {var.index}\n"
             
             
-    def begin(self):
+    # MODIFIE : Ajout du drapeau 'is_function_scope'
+    def begin(self, is_function_scope=False):
         config.TS.append({})
         if not hasattr(config, 'var_stack'):
             config.var_stack = []
+            
+        # MODIFIE : On sauvegarde TOUJOURS le NB_VAR parent
         config.var_stack.append(config.NB_VAR)
+        
+        # MODIFIE : On ne réinitialise NB_VAR que si c'est un nouveau
+        # scope de FONCTION (pour les args et les locaux)
+        if is_function_scope:
+            config.NB_VAR = 0
+        # SINON (pour un simple bloc), NB_VAR continue de s'incrémenter
         
         
     def end(self):
         table = config.TS.pop()
-        nb_vars_liberated = len(table)
+        
+        # MODIFIE : On récupère le nombre de variables déclarées *dans ce scope*
+        nb_vars_in_this_scope = len(table)
+        
+        # MODIFIE : On restaure TOUJOURS le NB_VAR du parent
         config.NB_VAR = config.var_stack.pop()
-        return nb_vars_liberated
+        
+        # MODIFIE : On retourne le nombre de variables déclarées ici
+        return nb_vars_in_this_scope
     
     
     def declare(self, name: str) -> dict :
         if not config.TS:
-            raise Exception("Pas de scope actif pour déclarer la variable")
+            raise Exception("Pas de scope actif pour déclarer la variable. 'begin()' a-t-il été appelé ?")
+        
         if name in config.TS[-1]:
             raise Exception(f"La variable {name} existe deja dans le block courant")
         
@@ -201,16 +216,28 @@ class AnalyseurSemantique:
 
     def semNode(self, arbre : Node):
         if (arbre.type ==  "node_block"):
-            self.begin()
+            # MODIFIE : C'est un simple bloc, PAS un scope de fonction
+            self.begin(is_function_scope=False)
+            
+            # MODIFIE : On doit compter les locales de ce bloc et des sous-blocs
+            locales_count = 0
             for fils in arbre.fils:
                 self.semNode(fils)
-            nb_vars = self.end()
-            arbre.nbArg = nb_vars
+                # MODIFIE : On compte les déclarations directes
+                if fils.type == "node_decl":
+                    locales_count += 1
+                # MODIFIE : On ajoute les locales des sous-blocs
+                elif fils.type == "node_block":
+                    locales_count += fils.nbLocales
+            
+            # MODIFIE : 'end()' ne nous donne que les vars de ce niveau
+            nb_vars_declared_here = self.end()
+            
+            # MODIFIE : Le nombre total de locales est la somme
+            arbre.nbLocales = locales_count
             
         elif (arbre.type == "node_decl"):
             s = self.declare(arbre.chaine) 
-            config.TS[-1][arbre.chaine]["index"] = config.NB_VAR
-            config.NB_VAR += 1
         
         elif (arbre.type == "node_ref"):
             name = getattr(arbre, "chaine", None) or getattr(arbre, "valeur", None)
@@ -221,34 +248,68 @@ class AnalyseurSemantique:
 
         
         elif(arbre.type == "node_fonct"): 
-            N = self.declare(arbre.chaine)
-            config.NB_ARG = 0
-            self.begin()
+            self.declare(arbre.chaine)
+            
+            # MODIFIE : C'EST un scope de fonction
+            self.begin(is_function_scope=True)
+            
+            nb_args = 0
+            body_node = None
+            
             for fils in arbre.fils:
-                self.semNode(fils)
                 if fils.type == "node_decl":
-                    config.NB_ARG += 1
+                    self.semNode(fils) 
+                    nb_args += 1
+                else:
+                    body_node = fils
+            
+            arbre.nbArg = nb_args
+            
+            if body_node:
+                self.semNode(body_node) # On analyse le corps
+            
+            # MODIFIE : 'end()' ne retourne que les vars de ce niveau
             self.end()
-            arbre.nbArg =  config.NB_ARG
+            
+            # MODIFIE : On récupère le 'nbLocales' du bloc-corps
+            if body_node and hasattr(body_node, "nbLocales"):
+                arbre.nbLocales = body_node.nbLocales
+            else:
+                arbre.nbLocales = 0
 
         elif arbre.type == "node_appel" : 
-            for fils in arbre.fils:
+            if arbre.fils[0].type == "node_ref":
+                sym = self.find(arbre.fils[0].chaine)
+            
+            for fils in arbre.fils[1:]:
                 self.semNode(fils) 
-            # Vérification de la cible de l'appel
-            #cible = arbre.fils[0]
-            #print(cible)
             
         elif (arbre.type == "node_assign"):
-            if (arbre.fils[0].type != "node_ref"):
-                raise Exception("La partie gauche d'une affectation doit etre une variable")
-            self.semNode(arbre.fils[0])
-            self.semNode(arbre.fils[1])
+            self.semNode(arbre.fils[1]) 
+            
+            if (arbre.fils[0].type == "node_ref"):
+                self.semNode(arbre.fils[0]) 
+            elif (arbre.fils[0].type == "node_ind"):
+                 self.semNode(arbre.fils[0]) 
+            else:
+                raise Exception("La partie gauche d'une affectation doit etre une variable ou une indirection")
+        
+        elif(arbre.type == "node_ind"):
+            self.semNode(arbre.fils[0]) 
+        
+        elif(arbre.type == "node_adr"):
+             self.semNode(arbre.fils[0]) 
+                
         else:
             for fils in arbre.fils:
                 self.semNode(fils)
 
     def verifier_main(self):
-        fonctions = [key for key, info in config.TS[0].items() if info.get("type") == "node_fonct"]
+        if not config.TS:
+             raise Exception("Impossible de vérifier 'main', la table des symboles globale est vide.")
+             
+        fonctions = config.TS[0].keys()
+        
         if "main" not in fonctions:
             raise Exception("Erreur: fonction 'main' obligatoire absente")
         if "start" in fonctions:

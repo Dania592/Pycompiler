@@ -100,6 +100,8 @@ class AnalyseurSyntaxique :
             E1 = self.E(0) 
             node = Node("node_send")
             node.ajouter_enfant(E1)
+            # MODIFIE : Il manquait le point-virgule ici
+            self.analyseur.accept("tok_semicolon")
             return node
         
         elif (self.analyseur.check("tok_brace_open")):
@@ -197,6 +199,8 @@ class AnalyseurSyntaxique :
             N = Node("node_ret")
             N1 = self.E(0)
             N.ajouter_enfant(N1)
+            # MODIFIE : Il manquait le point-virgule ici
+            self.analyseur.accept("tok_semicolon")
             return N
         
         elif(self.analyseur.check("tok_int")): 
@@ -234,7 +238,6 @@ class AnalyseurSyntaxique :
                 self.analyseur.accept("tok_int")
                 self.analyseur.accept("tok_ident")
                 N = Node("node_decl", chaine = config.Last.chaine)
-                config.NB_ARG += 1
                 node.ajouter_enfant(N)
                 if self.analyseur.check("tok_comma"):
                     pass
@@ -243,7 +246,5 @@ class AnalyseurSyntaxique :
             self.analyseur.accept("tok_par_close")
 
         I1 = self.I()
-        node.nbArg = config.NB_ARG - len(node.fils) - 1
-        config.NB_ARG = 0
         node.ajouter_enfant(I1)
         return node

@@ -22,6 +22,8 @@ class Node :
             self.pointeur = pointeur
         self.fils = [] 
         self.index = None 
+        # AJOUTE : Attribut pour stocker le nombre de variables locales d'une fonction
+        self.nbLocales = 0
         
     def ajouter_enfant(self, f:"Node"):
         self.fils.append(f)
@@ -39,15 +41,15 @@ class Node :
             info += f" [valeur={self.valeur}]"
         if hasattr(self, "chaine") and self.chaine:
             info += f" [chaine='{self.chaine}']"
-
+        # AJOUTE : Affichage des nouveaux attributs pour le débogage
+        if hasattr(self, "nbArg") and self.nbArg is not None:
+            info += f" [nbArg={self.nbArg}]"
+        if hasattr(self, "nbLocales") and self.nbLocales > 0:
+            info += f" [nbLocales={self.nbLocales}]"
+            
         branch = "└── " if last else "├── "
         print(str(indent) + str(branch) + str(info))
         indent += "    " if last else "│   "
 
         for i, f in enumerate(self.fils):
             f.afficher_arbre_joli(indent, i == len(self.fils) - 1)
-
-
-
-
-

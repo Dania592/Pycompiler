@@ -1,21 +1,20 @@
-int affiche( ){
-    int x;
-    x = 2;  
-    debug x;
-    x = x + 1;
-    debug x;  
-    
-    if(x == 3){
-        debug x; 
-        x = x - 1;
-        debug x;
-    }
-    else{
-        x = 10; 
-        debug x; 
-    }
+
+int add(int a, int b) {
+  int result;
+  result = a + b;
+  return result;
 }
 
-void main (){
-    affiche(); 
+int main() {
+  int x;
+  x = 10;
+  
+  if (x == 10) {
+    debug 1;
+  } else {
+    debug 0;
+  }
+  
+  debug add(x, 5); 
+  return 0;
 }
