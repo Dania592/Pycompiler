@@ -247,5 +247,3 @@ class AnalyseurSyntaxique :
         config.NB_ARG = 0
         node.ajouter_enfant(I1)
         return node
-
-        
