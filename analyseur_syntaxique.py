@@ -100,7 +100,6 @@ class AnalyseurSyntaxique :
             E1 = self.E(0) 
             node = Node("node_send")
             node.ajouter_enfant(E1)
-            # MODIFIE : Il manquait le point-virgule ici
             self.analyseur.accept("tok_semicolon")
             return node
         
@@ -199,7 +198,6 @@ class AnalyseurSyntaxique :
             N = Node("node_ret")
             N1 = self.E(0)
             N.ajouter_enfant(N1)
-            # MODIFIE : Il manquait le point-virgule ici
             self.analyseur.accept("tok_semicolon")
             return N
         
@@ -222,21 +220,26 @@ class AnalyseurSyntaxique :
         
     def F(self) ->Node : 
         if self.analyseur.check("tok_int"): 
-            # on ne fait rien , le token est consommé 
-            pass # on utilise ce mot pour permetrre de passer car python ne permet pas de bloc condition vide 
+            pass 
         elif self.analyseur.check("tok_void"): 
              pass
-            
         else:
             raise Exception("Type de retour de fonction attendu (int ou void)")
         
+        # MODIFIE : Ajout de la boucle pour consommer les '*' du type de retour
+        nb_etoiles_retour = 0
+        while self.analyseur.check("tok_mult"):
+            nb_etoiles_retour += 1
+            
         self.analyseur.accept("tok_ident")
         node = Node("node_fonct", chaine= config.Last.chaine)
+        
+        # (on ne fait rien avec nb_etoiles_retour, mais c'est parsé)
+        
         self.analyseur.accept("tok_par_open")
         if not self.analyseur.check("tok_par_close"):
             while True:
                 self.analyseur.accept("tok_int")
-                #Si ont a un tok mult on le consomme 
                 nb_etoiles = 0
                 while self.analyseur.check("tok_mult"):
                     nb_etoiles += 1
