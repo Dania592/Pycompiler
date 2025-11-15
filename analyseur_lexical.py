@@ -1,5 +1,5 @@
 import os
-from Object import Token, key_words, enum
+from Object import Token
 import config
 class AnalyserLexical : 
     def __init__(self, path = "text.txt", test = False, content = ""): 
@@ -33,7 +33,7 @@ class AnalyserLexical :
                 
             elif (car.isalpha() or car == "_"):
                 word = self.get_alpha()
-                if word in key_words.values():
+                if word in config.key_words.values():
                     config.T =Token("tok_" + word, 0, word)
                 else :
                     config.T =Token("tok_ident", 0, word)
@@ -76,7 +76,7 @@ class AnalyserLexical :
                 
         self.pos += 1
         
-        inverse_enum = {v: k for k, v in enum.items()}
+        inverse_enum = {v: k for k, v in config.enum.items()}
         if c in inverse_enum.keys():
             token_type = inverse_enum[c]
             config.T =Token(token_type, 0, c)
