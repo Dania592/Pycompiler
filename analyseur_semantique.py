@@ -164,33 +164,21 @@ class AnalyseurSemantique:
             var = arbre.fils[0]
             config.CODE_ASM += f"push {var.index}\n"
             
-            
-    # MODIFIE : Ajout du drapeau 'is_function_scope'
     def begin(self, is_function_scope=False):
         config.TS.append({})
         if not hasattr(config, 'var_stack'):
             config.var_stack = []
             
-        # MODIFIE : On sauvegarde TOUJOURS le NB_VAR parent
         config.var_stack.append(config.NB_VAR)
         
-        # MODIFIE : On ne réinitialise NB_VAR que si c'est un nouveau
-        # scope de FONCTION (pour les args et les locaux)
         if is_function_scope:
             config.NB_VAR = 0
-        # SINON (pour un simple bloc), NB_VAR continue de s'incrémenter
-        
+
         
     def end(self):
         table = config.TS.pop()
-        
-        # MODIFIE : On récupère le nombre de variables déclarées *dans ce scope*
         nb_vars_in_this_scope = len(table)
-        
-        # MODIFIE : On restaure TOUJOURS le NB_VAR du parent
         config.NB_VAR = config.var_stack.pop()
-        
-        # MODIFIE : On retourne le nombre de variables déclarées ici
         return nb_vars_in_this_scope
     
     
@@ -216,24 +204,18 @@ class AnalyseurSemantique:
 
     def semNode(self, arbre : Node):
         if (arbre.type ==  "node_block"):
-            # MODIFIE : C'est un simple bloc, PAS un scope de fonction
             self.begin(is_function_scope=False)
-            
-            # MODIFIE : On doit compter les locales de ce bloc et des sous-blocs
             locales_count = 0
+            
             for fils in arbre.fils:
                 self.semNode(fils)
-                # MODIFIE : On compte les déclarations directes
                 if fils.type == "node_decl":
                     locales_count += 1
-                # MODIFIE : On ajoute les locales des sous-blocs
+                    
                 elif fils.type == "node_block":
                     locales_count += fils.nbLocales
             
-            # MODIFIE : 'end()' ne nous donne que les vars de ce niveau
             nb_vars_declared_here = self.end()
-            
-            # MODIFIE : Le nombre total de locales est la somme
             arbre.nbLocales = locales_count
             
         elif (arbre.type == "node_decl"):
@@ -245,14 +227,10 @@ class AnalyseurSemantique:
                 raise Exception("node_ref sans nom")
             sym = self.find(name)
             arbre.index = sym["index"]
-
         
         elif(arbre.type == "node_fonct"): 
             self.declare(arbre.chaine)
-            
-            # MODIFIE : C'EST un scope de fonction
             self.begin(is_function_scope=True)
-            
             nb_args = 0
             body_node = None
             
@@ -266,12 +244,9 @@ class AnalyseurSemantique:
             arbre.nbArg = nb_args
             
             if body_node:
-                self.semNode(body_node) # On analyse le corps
-            
-            # MODIFIE : 'end()' ne retourne que les vars de ce niveau
+                self.semNode(body_node)
             self.end()
             
-            # MODIFIE : On récupère le 'nbLocales' du bloc-corps
             if body_node and hasattr(body_node, "nbLocales"):
                 arbre.nbLocales = body_node.nbLocales
             else:
