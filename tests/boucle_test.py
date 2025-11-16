@@ -17,32 +17,30 @@ void main(){
 }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 1
-.main
-resn 0
+        result = """.main
+resn 1
 push 0
 dup
-set 2
+set 0
 drop 1
 .l1a
-get 2
+get 0
 push 5
 cmple
 jumpf l1b
-get 2
+get 0
 dbg
 .l1c
-get 2
+get 0
 push 1
 add
 dup
-set 2
+set 0
 drop 1
 jump l1a
 .l1b
 push 0
 ret
-drop 1
 .start
 prep main
 call 0
@@ -60,32 +58,30 @@ void main(){
 }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 1
-.main
-resn 0
+        result = """.main
+resn 1
 push 10
 dup
-set 2
+set 0
 drop 1
 .l1a
-get 2
+get 0
 push 5
 cmpgt
 jumpf l1b
-get 2
+get 0
 dbg
 .l1c
-get 2
+get 0
 push 1
 sub
 dup
-set 2
+set 0
 drop 1
 jump l1a
 .l1b
 push 0
 ret
-drop 1
 .start
 prep main
 call 0
@@ -109,58 +105,56 @@ void main(){
 }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 1
-.main
-resn 0
+        result = """.main
+resn 3
 push 10
 dup
-set 2
+set 0
 drop 1
 .l1a
-get 2
+get 0
 push 5
 cmpgt
 jumpf l1b
 push 2
 dup
-set 4
+set 1
 drop 1
 .l2a
-get 4
+get 1
 push 24
 cmplt
 jumpf l2b
-get 2
-get 4
+get 0
+get 1
 mul
 dup
-set 6
+set 2
 drop 1
-get 6
+get 2
 dbg
 .l2c
-get 4
+get 1
 push 2
 mul
 dup
-set 4
+set 1
 drop 1
 jump l2a
 .l2b
-get 2
+get 0
 dbg
 .l1c
-get 2
+get 0
 push 1
 sub
 dup
-set 2
+set 0
 drop 1
 jump l1a
 .l1b
 push 0
 ret
-drop 1
 .start
 prep main
 call 0
@@ -181,31 +175,29 @@ void main(){
 }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 1
-.main
-resn 0
+        result = """.main
+resn 1
 push 2
 dup
-set 2
+set 0
 drop 1
 .l1a
-get 2
+get 0
 push 10
 cmplt
 jumpf l1b
-get 2
+get 0
 push 1
 add
 dup
-set 2
+set 0
 drop 1
-get 2
+get 0
 dbg
 jump l1a
 .l1b
 push 0
 ret
-drop 1
 .start
 prep main
 call 0
@@ -226,24 +218,23 @@ void main(){
 }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 1
-.main
-resn 0
+        result = """.main
+resn 1
 push 15
 dup
-set 2
+set 0
 drop 1
 .l1a
-get 2
+get 0
 push 1
 sub
 dup
-set 2
+set 0
 drop 1
-get 2
+get 0
 dbg
 .l1c
-get 2
+get 0
 push 1
 cmpgt
 not
@@ -256,7 +247,6 @@ jump l1a
 .l1b
 push 0
 ret
-drop 1
 .start
 prep main
 call 0
@@ -281,35 +271,34 @@ void main(){
 }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 1
-.main
-resn 0
+        result = """.main
+resn 1
 push 15
 dup
-set 2
+set 0
 drop 1
 .l1a
-get 2
+get 0
 push 5
 cmpeq
 jumpf l2a
 push 2
 dup
-set 2
+set 0
 drop 1
 jump l2b
 .l2a
-get 2
+get 0
 push 1
 sub
 dup
-set 2
+set 0
 drop 1
 .l2b
-get 2
+get 0
 dbg
 .l1c
-get 2
+get 0
 push 1
 cmpgt
 not
@@ -322,7 +311,6 @@ jump l1a
 .l1b
 push 0
 ret
-drop 1
 .start
 prep main
 call 0
@@ -347,42 +335,40 @@ void main(){
 }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 1
-.main
-resn 0
+        result = """.main
+resn 1
 push 15
 dup
-set 2
+set 0
 drop 1
 .l1a
-get 2
+get 0
 push 1
 cmpgt
 jumpf l1b
-get 2
+get 0
 push 5
 cmpeq
 jumpf l2a
 push 2
 dup
-set 2
+set 0
 drop 1
 jump l2b
 .l2a
-get 2
+get 0
 push 1
 sub
 dup
-set 2
+set 0
 drop 1
 .l2b
-get 2
+get 0
 dbg
 jump l1a
 .l1b
 push 0
 ret
-drop 1
 .start
 prep main
 call 0
@@ -405,49 +391,47 @@ void main(){
 }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 1
-.main
-resn 0
+        result = """.main
+resn 1
 push 15
 dup
-set 2
+set 0
 drop 1
 .l1a
-get 2
+get 0
 push 1
 cmpgt
 jumpf l1b
-get 2
+get 0
 push 5
 cmpeq
 jumpf l2a
 push 2
 dup
-set 2
+set 0
 drop 1
 jump l2b
 .l2a
-get 2
+get 0
 push 1
 sub
 dup
-set 2
+set 0
 drop 1
 .l2b
-get 2
+get 0
 dbg
 .l1c
-get 2
+get 0
 push 1
 sub
 dup
-set 2
+set 0
 drop 1
 jump l1a
 .l1b
 push 0
 ret
-drop 1
 .start
 prep main
 call 0
@@ -474,45 +458,43 @@ void main(){
 }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 1
-.main
-resn 0
+        result = """.main
+resn 1
 push 15
 dup
-set 2
+set 0
 drop 1
 .l1a
-get 2
+get 0
 push 1
 cmpgt
 jumpf l1b
-get 2
+get 0
 push 5
 cmpeq
 jumpf l2a
 push 18
 dup
-set 2
+set 0
 drop 1
 jump l1b
 jump l2b
 .l2a
-get 2
+get 0
 push 1
 sub
 dup
-set 2
+set 0
 drop 1
 .l2b
-get 2
+get 0
 dbg
 jump l1a
 .l1b
-get 2
+get 0
 dbg
 push 0
 ret
-drop 1
 .start
 prep main
 call 0
@@ -538,45 +520,43 @@ void main(){
 }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 1
-.main
-resn 0
+        result = """.main
+resn 1
 push 5
 dup
-set 2
+set 0
 drop 1
 .l1a
-get 2
+get 0
 push 20
 cmplt
 jumpf l1b
-get 2
+get 0
 push 9
 cmpeq
 jumpf l2a
 push 18
 dup
-set 2
+set 0
 drop 1
 jump l1a
 jump l2b
 .l2a
-get 2
+get 0
 push 1
 add
 dup
-set 2
+set 0
 drop 1
 .l2b
-get 2
+get 0
 dbg
 jump l1a
 .l1b
-get 2
+get 0
 dbg
 push 0
 ret
-drop 1
 .start
 prep main
 call 0
@@ -602,36 +582,35 @@ void main(){
 }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 1
-.main
-resn 0
+        result = """.main
+resn 1
 push 15
 dup
-set 2
+set 0
 drop 1
 .l1a
-get 2
+get 0
 push 5
 cmpeq
 jumpf l2a
 push 18
 dup
-set 2
+set 0
 drop 1
 jump l1b
 jump l2b
 .l2a
-get 2
+get 0
 push 1
 sub
 dup
-set 2
+set 0
 drop 1
 .l2b
-get 2
+get 0
 dbg
 .l1c
-get 2
+get 0
 push 1
 cmpgt
 not
@@ -642,11 +621,10 @@ jump l3b
 .l3b
 jump l1a
 .l1b
-get 2
+get 0
 dbg
 push 0
 ret
-drop 1
 .start
 prep main
 call 0
@@ -673,36 +651,35 @@ void main(){
 }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 1
-.main
-resn 0
+        result = """.main
+resn 1
 push 5
 dup
-set 2
+set 0
 drop 1
 .l1a
-get 2
+get 0
 push 9
 cmpeq
 jumpf l2a
 push 18
 dup
-set 2
+set 0
 drop 1
 jump l1a
 jump l2b
 .l2a
-get 2
+get 0
 push 1
 add
 dup
-set 2
+set 0
 drop 1
 .l2b
-get 2
+get 0
 dbg
 .l1c
-get 2
+get 0
 push 29
 cmplt
 not
@@ -713,11 +690,10 @@ jump l3b
 .l3b
 jump l1a
 .l1b
-get 2
+get 0
 dbg
 push 0
 ret
-drop 1
 .start
 prep main
 call 0
@@ -743,52 +719,50 @@ void main(){
 }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 1
-.main
-resn 0
+        result = """.main
+resn 1
 push 5
 dup
-set 2
+set 0
 drop 1
 .l1a
-get 2
+get 0
 push 20
 cmplt
 jumpf l1b
-get 2
+get 0
 push 15
 cmpgt
 jumpf l2a
 push 29
 dup
-set 2
+set 0
 drop 1
 jump l1b
 jump l2b
 .l2a
-get 2
+get 0
 push 1
 add
 dup
-set 2
+set 0
 drop 1
 .l2b
-get 2
+get 0
 dbg
 .l1c
-get 2
+get 0
 push 1
 add
 dup
-set 2
+set 0
 drop 1
 jump l1a
 .l1b
-get 2
+get 0
 dbg
 push 0
 ret
-drop 1
 .start
 prep main
 call 0
@@ -813,52 +787,50 @@ void main(){
 }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 1
-.main
-resn 0
+        result = """.main
+resn 1
 push 5
 dup
-set 2
+set 0
 drop 1
 .l1a
-get 2
+get 0
 push 20
 cmplt
 jumpf l1b
-get 2
+get 0
 push 9
 cmpeq
 jumpf l2a
 push 18
 dup
-set 2
+set 0
 drop 1
 jump l1a
 jump l2b
 .l2a
-get 2
+get 0
 push 1
 add
 dup
-set 2
+set 0
 drop 1
 .l2b
-get 2
+get 0
 dbg
 .l1c
-get 2
+get 0
 push 1
 add
 dup
-set 2
+set 0
 drop 1
 jump l1a
 .l1b
-get 2
+get 0
 dbg
 push 0
 ret
-drop 1
 .start
 prep main
 call 0
@@ -882,51 +854,49 @@ void main(){
 }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 1
-.main
-resn 0
+        result = """.main
+resn 2
 push 0
 dup
-set 4
+set 1
 drop 1
 .l1a
-get 4
+get 1
 push 10
 cmplt
 jumpf l1b
-get 4
+get 1
 dbg
 push 0
 dup
-set 2
+set 0
 drop 1
 .l2a
-get 2
+get 0
 push 5
 cmplt
 jumpf l2b
-get 2
+get 0
 dbg
-get 2
+get 0
 push 1
 add
 dup
-set 2
+set 0
 drop 1
 jump l2a
 .l2b
 .l1c
-get 4
+get 1
 push 1
 add
 dup
-set 4
+set 1
 drop 1
 jump l1a
 .l1b
 push 0
 ret
-drop 1
 .start
 prep main
 call 0
@@ -950,35 +920,34 @@ void main(){
 }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 1
-.main
-resn 0
+        result = """.main
+resn 2
 push 0
 dup
-set 4
+set 1
 drop 1
 .l1a
-get 4
+get 1
 push 10
 cmplt
 jumpf l1b
-get 4
+get 1
 dbg
 push 0
 dup
-set 2
+set 0
 drop 1
 .l2a
-get 2
+get 0
 dbg
-get 2
+get 0
 push 1
 add
 dup
-set 2
+set 0
 drop 1
 .l2c
-get 2
+get 0
 push 5
 cmplt
 not
@@ -990,17 +959,16 @@ jump l3b
 jump l2a
 .l2b
 .l1c
-get 4
+get 1
 push 1
 add
 dup
-set 4
+set 1
 drop 1
 jump l1a
 .l1b
 push 0
 ret
-drop 1
 .start
 prep main
 call 0
@@ -1026,35 +994,34 @@ void main(){
 }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 1
-.main
-resn 0
+        result = """.main
+resn 2
 push 0
 dup
-set 4
+set 1
 drop 1
 .l1a
-get 4
+get 1
 push 10
 cmplt
 jumpf l1b
-get 4
+get 1
 dbg
 push 0
 dup
-set 2
+set 0
 drop 1
 .l2a
-get 2
+get 0
 dbg
-get 2
+get 0
 push 1
 add
 dup
-set 2
+set 0
 drop 1
 .l2c
-get 2
+get 0
 push 5
 cmplt
 not
@@ -1065,17 +1032,16 @@ jump l3b
 .l3b
 jump l2a
 .l2b
-get 4
+get 1
 push 1
 add
 dup
-set 4
+set 1
 drop 1
 jump l1a
 .l1b
 push 0
 ret
-drop 1
 .start
 prep main
 call 0
