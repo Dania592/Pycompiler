@@ -7,8 +7,8 @@ Il a été réalisé dans le cadre du module de compilation (APP4) en informatiq
 
 ## Lancement
 
-- Fichier principal : `CompiltaeurC.py`  
-- Exécution : `python CompiltaeurC.py fichier_a_compiler.c`  
+- Fichier principal : `CompilateurC.py`  
+- Exécution : `python CompilateurC.py fichier_a_compiler.c`  
 - La sortie correspond au code assembleur généré, affiché dans le terminal.
 
 Pour exécuter le code produit, il suffit de rediriger la sortie vers un fichier puis de l’utiliser avec le simulateur.
