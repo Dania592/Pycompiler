@@ -226,15 +226,12 @@ class AnalyseurSyntaxique :
         else:
             raise Exception("Type de retour de fonction attendu (int ou void)")
         
-        # MODIFIE : Ajout de la boucle pour consommer les '*' du type de retour
         nb_etoiles_retour = 0
         while self.analyseur.check("tok_mult"):
             nb_etoiles_retour += 1
             
         self.analyseur.accept("tok_ident")
         node = Node("node_fonct", chaine= config.Last.chaine)
-        
-        # (on ne fait rien avec nb_etoiles_retour, mais c'est parsé)
         
         self.analyseur.accept("tok_par_open")
         if not self.analyseur.check("tok_par_close"):
