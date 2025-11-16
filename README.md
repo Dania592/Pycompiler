@@ -30,7 +30,7 @@ Produit le code assembleur correspondant à l’arbre syntaxique généré.
 
 ## Structure du projet
 
-- **CompiltaeurC.py** : fichier principal qui coordonne l’ensemble du processus.  
+- **CompilateurC.py** : fichier principal qui coordonne l’ensemble du processus.  
 - **Object.py** : contient les classes `Token` et `Node` utilisées pour la représentation interne du programme.  
 - **config.py** : regroupe les variables globales, règles de syntaxe et dictionnaires utilisés par les analyseurs.
 
