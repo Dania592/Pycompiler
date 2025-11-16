@@ -15,16 +15,13 @@ class BasicTests(unittest.TestCase):
         }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 1
-.main
-resn 0
+        result = """.main
 push 24
 drop 1
 push 12
 drop 1
 push 0
 ret
-drop 1
 .start
 prep main
 call 0
@@ -39,16 +36,13 @@ halt
         }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 1
-.main
-resn 0
+        result = """.main
 push 0
 push 24
 sub
 drop 1
 push 0
 ret
-drop 1
 .start
 prep main
 call 0
@@ -64,9 +58,7 @@ halt
         }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 1
-.main
-resn 0
+        result = """.main
 push 0
 push 24
 sub
@@ -77,7 +69,6 @@ sub
 drop 1
 push 0
 ret
-drop 1
 .start
 prep main
 call 0
@@ -92,16 +83,13 @@ halt
         }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 1
-.main
-resn 0
+        result = """.main
 push 2
 push 6
 add
 drop 1
 push 0
 ret
-drop 1
 .start
 prep main
 call 0
@@ -116,16 +104,13 @@ halt
         }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 1
-.main
-resn 0
+        result = """.main
 push 2
 push 6
 sub
 drop 1
 push 0
 ret
-drop 1
 .start
 prep main
 call 0
@@ -140,16 +125,13 @@ halt
         }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 1
-.main
-resn 0
+        result = """.main
 push 10
 push 3
 mul
 drop 1
 push 0
 ret
-drop 1
 .start
 prep main
 call 0
@@ -164,9 +146,7 @@ halt
         }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 1
-.main
-resn 0
+        result = """.main
 push 0
 push 10
 sub
@@ -177,7 +157,6 @@ add
 drop 1
 push 0
 ret
-drop 1
 .start
 prep main
 call 0
@@ -192,9 +171,7 @@ halt
         }
         """
         asm = compiler(code).encode('utf-8').decode('unicode_escape')
-        result = """resn 1
-.main
-resn 0
+        result = """.main
 push 0
 push 10
 sub
@@ -207,7 +184,6 @@ mul
 drop 1
 push 0
 ret
-drop 1
 .start
 prep main
 call 0
